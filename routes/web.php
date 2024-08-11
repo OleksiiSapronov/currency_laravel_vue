@@ -1,11 +1,39 @@
 <?php
 
+use App\Http\Controllers\CsvController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/upload-csv', [CsvController::class, 'index'])->name('upload.csv.index');
+Route::post('/upload-csv', [CsvController::class, 'upload'])->name('upload-csv');
+
+Route::get('/contact', function() {
+    return Inertia::render('Contact');
+})->name('contact');
+
+Route::get('/cookies-policy', function() {
+    return Inertia::render('CookiesPolicy');
+})->name('cookies-policy');
+
+Route::get('/currencies/pairs/{value}', function($value) {
+    if(preg_match('/([a-z-]+)-page/i', $value, $matches)) {
+        print_r("Hello1");
+        dd($matches);
+    } else if(preg_match('/([a-z-]+)-calculator/i', $value, $matches)) {
+        print_r("Hello2");
+        dd($matches);
+    } else if(preg_match('/([0-9]+)-([a-z-]+)-to-([a-z-]+)/i', $value, $matches)) {
+        print_r("Hello3");
+        dd($matches);
+    }
+});
+
+Route::get('/hello', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
