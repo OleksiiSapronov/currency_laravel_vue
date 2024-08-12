@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Country } from "@/Pages/Home.vue";
 
@@ -32,7 +32,7 @@ const getFlagUrl = function (code: string) {
 <template>
   <div class="flex flex-col whitespace-nowrap min-w-64">
     <div class="flex flex-col gap-5">
-      <h1 class="mt-12">Main curriencies</h1>
+      <h1 class="mt-12 font-semibold">Main curriencies</h1>
       <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2">
         <Link
           :href="`/currencies/pairs/${
@@ -55,7 +55,7 @@ const getFlagUrl = function (code: string) {
       </div>
     </div>
     <div class="flex flex-col gap-5">
-      <h1 class="mt-12">Other curriencies</h1>
+      <h1 class="mt-12 font-semibold">Other curriencies</h1>
       <div v-for="country in otherCurrencies" :key="country.id" class="flex gap-2">
         <Link
           :href="`/currencies/pairs/${

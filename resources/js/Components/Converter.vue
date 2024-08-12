@@ -5,7 +5,7 @@
       name="balance"
       id="balance"
       autocomplete="balance"
-      class="rounded-md border-1 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
+      class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
       placeholder="Quantity"
       :model="quantity"
     />
@@ -66,7 +66,7 @@
     </select>
     <button
       type="button"
-      class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 convert"
+      class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
     >
       CONVERT
     </button>
