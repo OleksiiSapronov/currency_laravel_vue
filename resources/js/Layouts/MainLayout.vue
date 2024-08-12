@@ -4,6 +4,7 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
 import ScrollUp from "@/Components/ScrollUp.vue";
+import CookieSnackBar from "@/Components/CookieSnackBar.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -88,20 +89,7 @@ const showingNavigationDropdown = ref(false);
 
       <ScrollUp />
 
-      <div
-        class="CookieConsent fixed bottom-0 left-0 w-full z-50 flex items-center justify-center flex-wrap bg-black text-white border-gray-700 text-sm px-0 py-0 opacity-80 shadow-sm">
-        <div class="flex-1 flex-shrink-0 w-full sm:w-auto mx-5 my-3 sm:my-0">
-          <span class="dark">
-            This site uses cookies. By continuing to browse the site, you are agreeing to our use of cookies. To find out more, please click here.
-            <a href="/cookies-policy" class="underline">here</a>.
-          </span>
-        </div>
-        <div class="flex-shrink-0 p-2">
-          <button onclick="return this.parentNode.parentNode.remove()" id="rcc-confirm-button"
-            aria-label="Accept cookies"
-            class="px-2 py-1 bg-black border border-white rounded-md text-white cursor-pointer">I understand</button>
-        </div>
-      </div>
+      <CookieSnackBar />
     </div>
   </div>
 </template>
