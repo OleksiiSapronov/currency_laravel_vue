@@ -40,6 +40,7 @@ class HomeController extends Controller
         }
 
         $tmp = array();
+        dd($topCountries);
         for($i = 0; $i < count($flags); $i ++) $tmp[] = $topCountries[$i];
 
         return Inertia::render('Home', [
