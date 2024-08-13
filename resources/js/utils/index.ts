@@ -26,9 +26,9 @@ export const genConvertLink = (src: Country, dest: Country, value: number = 1): 
   if (src.call !== "") {
     out += src.call + "-";
   }
-  out += src.currency_name.replace(' ', '-') + '-' + src.currency_code;
+  out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-to-';
   if (dest.call !== "") {
-    out += '-' + dest.call + "-";
+    out += dest.call + "-";
   }
   out += dest.currency_name.replace(' ', '-') + '-' + dest.currency_code;
   return "/currencies/pairs/" + out.toLowerCase();

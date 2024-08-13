@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
-import { Country } from "@/Pages/Home.vue";
+import { Country } from "@/types";
 
 const props = withDefaults(
   defineProps<{

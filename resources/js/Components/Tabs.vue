@@ -1,56 +1,28 @@
 <template>
-  <div class="flex flex-wrap">
-    <div class="w-full">
-      <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-        <li v-for="tab in tabLabels" :key="tab.id" class="mr-1 last:mr-0 border-2 flex-auto text-center">
-          <a
-            class="text-xs font-bold uppercase px-5 py-3 rounded block leading-normal"
-            @click="toggleTabs(tab.id)"
-            :class="{
-              'text-blueGray-600 bg-white': openTab !== tab.id,
-              'text-white bg-blueGray-600': openTab === tab.id,
-            }"
-          >
-            {{ tab.name }}
-          </a>
-        </li>
-      </ul>
-      <div
-        class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded"
-      >
-        <div class="px-4 py-5 flex-auto">
-          <div class="tab-content tab-space">
-            <div v-bind:class="{ hidden: openTab !== 1, block: openTab === 1 }">
-              <p>
-                Collaboratively administrate empowered markets via plug-and-play networks.
-                Dynamically procrastinate B2C users after installed base benefits.
-                <br />
-                <br />
-                Dramatically visualize customer directed convergence without revolutionary
-                ROI.
-              </p>
-            </div>
-            <div v-bind:class="{ hidden: openTab !== 2, block: openTab === 2 }">
-              <p>
-                Completely synergize resource taxing relationships via premier niche
-                markets. Professionally cultivate one-to-one customer service with robust
-                ideas.
-                <br />
-                <br />
-                Dynamically innovate resource-leveling customer service for state of the
-                art customer service.
-              </p>
-            </div>
-            <div v-bind:class="{ hidden: openTab !== 3, block: openTab === 3 }">
-              <p>
-                Efficiently unleash cross-media information without cross-media value.
-                Quickly maximize timely deliverables for real-time schemas.
-                <br />
-                <br />
-                Dramatically maintain clicks-and-mortar solutions without functional
-                solutions.
-              </p>
-            </div>
+  <div class="text-2xl py-6 text-gray-500 font-extrabold">Conversion table for major world currencies</div>
+  <div class="tabs-header">
+    <ul class="flex border-b flex-wrap">
+      <li v-for="tab in tabLabels" :key="tab.id" :class="openTab === tab.id ? activeClasses : inactiveClasses"
+        class="-mb-px mr-1 font-semibold overflow-hidden" :role="openTab !== tab.id ? 'button' : 'none'"
+        @click="openTab = tab.id">
+        <span :class="openTab !== tab.id && 'hover:bg-gray-100'" class="bg-white py-2 px-4 inline-flex">
+          {{ tab.name }}
+        </span>
+      </li>
+    </ul>
+    <div class="p-2">
+      <b>Currency exchange rates table of the Romanian Leu (RON), updated at 2024-06-18 01:54:00</b>
+      <br />
+      On this page you will find list of the mutual conversions of the <b>Romanian Leu (Romanian Leu) currency and other
+        major world currencies.</b>
+    </div>
+  </div>
+  <div class="tabs-content rounded-md">
+    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded">
+      <div class="tab-content">
+        <div v-for="tab in tabLabels" v-bind:class="{ hidden: openTab !== tab.id, block: openTab === tab.id }">
+          <div class="relative overflow-x-auto">
+            <CurrencyTable :countries="props.countries" :src="props.src"/>
           </div>
         </div>
       </div>
@@ -58,8 +30,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import { Country } from '@/types';
+import CurrencyTable from './CurrencyTable.vue';
+
+const props = withDefaults(
+  defineProps<{
+    countries: [Country];
+    src: Country;
+  }>(),
+  {
+  }
+);
 
 const tabLabels = [
   { name: "Main currencies", id: 1 },
@@ -72,7 +55,6 @@ const tabLabels = [
 ];
 
 const openTab = ref(1);
-const toggleTabs = function(tabNumber) {
-  openTab.value = tabNumber;
-}
+const activeClasses = 'border-l border-t border-r rounded-t text-blue-700';
+const inactiveClasses = 'text-gray-500 hover:text-blue-700 truncate max-w-20';
 </script>

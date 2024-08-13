@@ -4,117 +4,87 @@ import { Head, Link } from "@inertiajs/vue3";
 import Tabs from "@/Components/Tabs.vue";
 import Converter from "@/Components/Converter.vue";
 import CurrienciesView from "@/Components/CurrienciesView.vue";
-
-export interface Country {
-  id: number;
-  country_name: string;
-  country_code: string;
-  currency_sign: string;
-  currency_code: string;
-  currency_name: String;
-  call: string;
-  date: Date;
-  value: number;
-  order: number;
-}
+import { Country } from "@/types";
+import { genCurrencyLink, genFlagUrl, genCurrencyFullName, SERVER_URL, genCalculatorLink } from "@/utils";
+import CalculatorTable from "@/Components/CalculatorTable.vue";
 
 const props = withDefaults(defineProps<{
   countries: [Country];
   topCountries: [Country];
   srcCurrency: Country;
   destCurrency: Country;
-  value?: number;
-}>(),{
-  value: 1
+  balance?: number;
+  mode?: number;
+}>(), {
+  balance: 1,
+  mode: 1
 });
-
-const mode = 1;
-
-const getFlagUrl = function (code: string) {
-  return `https://flagcdn.com/32x24/${code.toLowerCase()}.png`;
-};
 </script>
 
 <template>
-  <Head title="Dashboard" />
+
+  <Head title="Home" />
 
   <MainLayout>
     <div class="py-6 flex">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex" v-if="mode == 1">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 flex lg:gap-5">
+      <!-- Main page -->
+      <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1">
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5">
           <div>
+            <!-- Title -->
             <div class="mb-3">
-              <h1 class="fs-22 font-bold">Convertor valutar online.</h1>
+              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">Convertor valutar online.</div>
               <p>Convertor valutar (Euro, Dolar, BTC), curs valutar FX și calculator.</p>
-              <h1 class="fs-22 font-bold">
+              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
                 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
                 {{ srcCurrency.currency_code }} - Current currency exchange converter page
-              </h1>
+              </div>
               <p>Last update {{ new Date(srcCurrency.date) }}.</p>
             </div>
 
-            <div class="text-gray-900 flex mb-6 gap-3 justify-center flex-wrap">
-              <div
-                v-for="(country, index) in props.topCountries"
-                :key="country.id"
-                :class="
-                  index == 0
-                    ? 'flex flex-col items-center gap-1 pr-10'
-                    : 'flex flex-col items-center gap-1'
-                "
-              >
+            <!-- Convert Flags -->
+            <div class="text-gray-900 flex p-3 gap-3 justify-center flex-wrap">
+              <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
+                ? 'flex flex-col items-center gap-1 pr-10'
+                : 'flex flex-col items-center gap-1'
+                ">
                 <div v-if="index != 0">
-                  <Link
-                    :href="`/currencies/pairs/100-us-dollar-usd-to-${
-                      country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"
-                    ><img :src="getFlagUrl(country.country_code)"
-                  /></Link>
+                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
+                    :src="genFlagUrl(country.country_code)" /></Link>
                 </div>
-                <div v-else><img :src="getFlagUrl(country.country_code)" /></div>
+                <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
                 <div v-if="index != 0" class="currency-flag">
-                  <Link
-                    :href="`/currencies/pairs/100-us-dollar-usd-to-${
-                      country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"
-                    >{{ country.currency_code }}</Link
-                  >
+                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
+                      country.currency_code }}</Link>
                 </div>
                 <div v-else>&nbsp;</div>
                 <div v-if="index == 0">1 {{ country.currency_code }} =</div>
                 <div v-else>
                   {{
                     country.currency_sign == "$"
-                      ? `$${
-                          Math.round((country.value / srcCurrency.value) * 100) / 100
-                        }`
-                      : `${
-                          Math.round((country.value / srcCurrency.value) * 100) / 100
-                        }${country.currency_sign}`
+                      ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      }`
+                      : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      }${country.currency_sign}`
                   }}
                 </div>
               </div>
             </div>
 
-            <Converter
-              :countries="countries"
-              :src="srcCurrency"
-              :dest="destCurrency"
-              :default="1"
-            />
+            <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
 
-            <div class="p-2 flex flex-col rounded-md border-2 items-center">
+            <div class="p-2 flex flex-col rounded-md border items-center">
               <div>
-                <span
-                  >What is the exchange rate of 1
+                <span>What is the exchange rate of 1
                   {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} in
-                  {{ `${destCurrency.call} ${destCurrency.currency_name}` }}?</span
-                >
+                  {{ `${destCurrency.call} ${destCurrency.currency_name}` }}?</span>
               </div>
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
                   1 {{ srcCurrency.currency_code }} =
-                  {{ Math.round((destCurrency.value / srcCurrency.value) * 1e6) / 1e6 }}
+                  {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
                   {{ destCurrency.currency_code }}
                 </h2>
               </div>
@@ -124,25 +94,19 @@ const getFlagUrl = function (code: string) {
               <div class="flex w-full justify-around mt-3 flex-wrap">
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link
-                      :href="`/currencies/pairs/${
-                        srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`"
-                      >Check this currency</Link
-                    >
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link
-                      :href="`/currencies/pairs/${
-                        srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`"
-                      >{{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link
-                    >
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
+                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
-                    }}) = 0.20095
+                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
                     }})
@@ -150,29 +114,23 @@ const getFlagUrl = function (code: string) {
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link
-                      :href="`/currencies/pairs/${
-                        destCurrency.call == ''
-                          ? ''
-                          : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`"
-                      >Check this currency</Link
-                    >
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link
-                      :href="`/currencies/pairs/${
-                        destCurrency.call == ''
-                          ? ''
-                          : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`"
-                      >{{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link
-                    >
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
-                    }}) = 4.9765
+                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
                     {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
                     }})
@@ -180,18 +138,22 @@ const getFlagUrl = function (code: string) {
                 </div>
               </div>
 
-              <hr class="w-full mt-4 mb-2 border-2" />
+              <hr class="w-full mt-4 mb-2 border" />
 
               <div>
                 <p>
                   On this page, you can find conversion of
-                  <b>1 Romanian Leu (RON) to Euro (EUR)</b>. Calculator shows the exchange
-                  rate of the two currencies conversion. Please find above the latest
-                  exchange rate between them, updated at {{ srcCurrency.date }}. If you
-                  want to calculate <b>Romanian Leu</b> or to many currencies, then please
-                  go to <a>RON calculator</a> or <a>EUR calculator</a>. Our money
-                  converter is using actual average data from different currency rates
-                  sources.
+                  <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
+                    {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
+                  Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
+                  exchange rate between them, updated at {{ srcCurrency.date }}. If you want to calculate
+                  <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
+                  then please go to
+                  <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{
+                    srcCurrency.currency_code }} calculator</Link> or
+                  <Link :href="genCalculatorLink(destCurrency)" class="text-blue-500 hover:text-gray-500">{{
+                    destCurrency.currency_code }} calculator</Link>. Our money
+                  converter is using actual average data from different currency rates sources.
                 </p>
                 <br />
                 <p>
@@ -208,8 +170,22 @@ const getFlagUrl = function (code: string) {
             </div>
 
             <div>
-              <h1>Conversion table for major world currencies</h1>
-              <Tabs />
+              <Tabs :countries="countries" :src="srcCurrency" />
+            </div>
+
+            <div>
+              <div class="border p-2">
+                {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
+                currency in the following countries: {{ srcCurrency.country_name }}
+              </div>
+              <br />
+              <div class="border p-2">
+                Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
+                  (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
+                into your page:
+              </div>
+              <textarea
+                class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
           </div>
           <div class="lg:block md:hidden sm:hidden hidden">
@@ -218,54 +194,135 @@ const getFlagUrl = function (code: string) {
         </div>
       </div>
 
+      <!-- Convert src to dest -->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="mode == 2">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3">
           <div>
             <div class="mb-3">
               <h1 class="fs-22 font-bold">
-                How much is 100 Euro (Euro) in Euro Vanuatu Vatu Euro?
+                How much is {{ balance }} {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
+                ({{ srcCurrency.currency_code }}) in {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} {{ `${destCurrency.call} ${destCurrency.currency_name}` }} {{ srcCurrency.currency_name }}?
               </h1>
             </div>
 
-            <div class="p-2 flex flex-col rounded-md border-2 items-center mb-3">
+            <div class="p-2 flex flex-col rounded-md border items-center mb-3">
               <div>
-                <span>1 RON = 0.20095 EUR</span>
+                <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
+                  {{ balance }} {{ srcCurrency.currency_code }} =
+                  {{ Math.round((balance * destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                  {{ destCurrency.currency_code }}
+                </h2>
               </div>
 
               <hr class="w-full" />
 
-              <div class="flex w-full justify-around">
+              <div class="flex w-full justify-around mt-3 flex-wrap">
                 <div class="flex flex-col items-center">
-                  <div>Check this currency</div>
-                  <div>Romanian Leu</div>
-                  <div>1 Romanian Leu (RON) = 0.20095 Euro (€)</div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    Check this currency</Link>
+                  </div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
+                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
+                  </div>
+                  <div>
+                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
+                      srcCurrency.currency_sign
+                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
+                      destCurrency.currency_sign
+                    }})
+                  </div>
                 </div>
                 <div class="flex flex-col items-center">
-                  <div>Check this currency</div>
-                  <div>Euro</div>
-                  <div>1 Euro (€ ) = 4.9765 Romanian Leu (RON)</div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    Check this currency</Link>
+                  </div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
+                  </div>
+                  <div>
+                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
+                      destCurrency.currency_sign
+                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
+                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
+                      srcCurrency.currency_sign
+                    }})
+                  </div>
                 </div>
               </div>
 
-              <hr class="w-full" />
+              <hr class="w-full mt-3 mb-2" />
 
-              <div class="content-start w-full">Last updated at 2024-06-18 01:54:00</div>
+              <p>Last update {{ new Date(srcCurrency.date) }}.</p>
             </div>
 
-            <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" />
+            <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="balance"/>
 
             <div>
               <p>
-                You have just converted <b>100 EUR to VUV - Euro to Vanuatu Vatu</b> . To
-                convert it, we have used value of <b>1 EUR = 127.38 Vanuatu Vatu</b>. You
-                can convert <b>Euro</b> to any other currency using the above form. Invert
-                exchange - How much is 1 EUR to USD ? Go to USD dollar converter and
-                calculator.
+                You have just converted <b>{{ balance }} {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} - {{ srcCurrency.currency_name }} to {{ destCurrency.currency_name }}</b>. To
+                convert it, we have used value of 
+                <b>1 {{ srcCurrency.currency_code }} = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</b>. 
+                You can convert <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</b> to any other
+                currency using the above form. Invert exchange - 
+                How much is 1 EUR to USD ? Go to USD dollar converter and calculator.
               </p>
             </div>
 
             <div>
-              <h1>Currency converter. Check the current exchange rate of EUR to VUV</h1>
+              <div class="text-lg font-bold mt-6 mb-1">Currency converter. Check the current exchange rate of {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }}</div>
+              <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+                  <tr>
+                    <th scope="col" class="px-1 py-2 border">
+                      {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} ({{ srcCurrency.call }} {{ srcCurrency.currency_name }})
+                    </th>
+                    <th scope="col" class="px-1 py-2 border">
+                      {{ destCurrency.currency_code }} to {{ srcCurrency.currency_code }} ({{ destCurrency.call }} {{ destCurrency.currency_name }})
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in [100, 200, 500, 1000, 2000, 5000, 10000, 50000, 100000, 200000]" :key="item">
+                    <td class="p-1 border">
+                      {{ new Intl.NumberFormat().format(item) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item * destCurrency.value / srcCurrency.value * 1e5) / 1e5)  }} 
+                      {{ destCurrency.currency_code }}
+                    </td>
+                    <td class="p-1 border">
+                      {{ new Intl.NumberFormat().format(item / 10) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item * srcCurrency.value / destCurrency.value * 1e4) / 1e5)  }} 
+                      {{ srcCurrency.currency_code }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Other currencies -->
+              <div class="text-lg font-bold mt-6 mb-1">{{ balance }} {{ srcCurrency.currency_code }} in other currencies</div>
+              <div class="flex w-full flex-wrap">
+                <div 
+                  v-for="country in props.countries.filter((item: Country) => item.order > 10)" 
+                  :key="country.id" 
+                  class="w-1/2 p-2 border text-gray-500"
+                  >
+                  {{ new Intl.NumberFormat().format(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
+                  {{ new Intl.NumberFormat().format(Math.round(balance * country.value / srcCurrency.value * 1e5) / 1e5) }} 
+                  {{ country.currency_name }} {{ country.currency_code }}
+                </div>
+              </div>
             </div>
           </div>
           <div>
@@ -274,77 +331,218 @@ const getFlagUrl = function (code: string) {
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12">
+      <!-- Calculator page -->
+      <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="props.mode == 4">
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-col">
           <div class="mb-3">
-            <h1 class="fs-22 font-bold">
-              Romanian Leu RON - Current currency exchange converter page
-            </h1>
-            <p>Last update 18 June 2024 01:06 UTC.</p>
+            <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
+              {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
+              ({{ srcCurrency.currency_code }}) Currency Exchange Rate calculator
+            </div>
+            <p>Last update {{ new Date(srcCurrency.date) }}.</p>
           </div>
 
-          <div class="text-gray-900 flex mb-6 gap-3">
-            <div
-              v-for="curriency in countries"
-              :key="curriency.country_code"
-              class="flex flex-col items-center gap-1"
-            >
-              <div><img :src="getFlagUrl(curriency.country_code)" /></div>
-              <div>{{ curriency.currency_sign }}</div>
-              <div>{{ curriency.value }}</div>
+          <div class="text-gray-900 flex p-3 gap-3 justify-between flex-wrap">
+            <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
+              ? 'flex flex-col items-center gap-1 pr-10'
+              : 'flex flex-col items-center gap-1'
+              ">
+              <div v-if="index != 0">
+                <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
+                  :src="genFlagUrl(country.country_code)" /></Link>
+              </div>
+              <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
+              <div v-if="index != 0" class="currency-flag">
+                <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
+                    country.currency_code }}</Link>
+              </div>
+              <div v-else>&nbsp;</div>
+              <div v-if="index == 0">1 {{ country.currency_code }} =</div>
+              <div v-else>
+                {{
+                  country.currency_sign == "$"
+                    ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                    }`
+                    : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                    }${country.currency_sign}`
+                }}
+              </div>
             </div>
           </div>
 
-          <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" />
+          <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="props.balance" :mode="1"/>
 
-          <div class="p-2 flex flex-col rounded-md border-2 items-center">
-            <div>
-              <span>What is the exchange rate of 1 Romanian Leu in Euro?</span>
+          <div>
+            <CalculatorTable :countries="countries" :src="srcCurrency" :value="props.balance" />
+          </div>
+          
+          <div>
+            <div class="border p-2">
+              {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
+              currency in the following countries: {{ srcCurrency.country_name }}
+            </div>
+            <br />
+            <div class="border p-2">
+              Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
+                (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
+              into your page:
+            </div>
+            <textarea
+              class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5">
+          <div>
+            <div class="mb-3">
+              <h1 class="fs-22 font-bold">
+                {{ genCurrencyFullName(props.srcCurrency) }} - Current currency exchange converter page
+              </h1>
+              <p>Last update {{ new Date(srcCurrency.date) }}</p>
             </div>
 
-            <div>
-              <span>1 RON = 0.20095 EUR</span>
-            </div>
-
-            <hr class="w-full" />
-
-            <div class="flex w-full justify-around">
-              <div class="flex flex-col items-center">
-                <div>Check this currency</div>
-                <div>Romanian Leu</div>
-                <div>1 Romanian Leu (RON) = 0.20095 Euro (€)</div>
+            <div class="text-gray-900 flex p-3 gap-3 justify-center flex-wrap">
+              <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
+                ? 'flex flex-col items-center gap-1 pr-10'
+                : 'flex flex-col items-center gap-1'
+                ">
+                <div v-if="index != 0">
+                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
+                    :src="genFlagUrl(country.country_code)" /></Link>
+                </div>
+                <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
+                <div v-if="index != 0" class="currency-flag">
+                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
+                      country.currency_code }}</Link>
+                </div>
+                <div v-else>&nbsp;</div>
+                <div v-if="index == 0">1 {{ country.currency_code }} =</div>
+                <div v-else>
+                  {{
+                    country.currency_sign == "$"
+                      ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      }`
+                      : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      }${country.currency_sign}`
+                  }}
+                </div>
               </div>
-              <div class="flex flex-col items-center">
-                <div>Check this currency</div>
-                <div>Euro</div>
-                <div>1 Euro (€ ) = 4.9765 Romanian Leu (RON)</div>
-              </div>
             </div>
 
-            <hr class="w-full" />
+            <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
+
+            <div class="p-2 flex flex-col rounded-md border items-center">
+              <div>
+                <span>What is the exchange rate of 1
+                  {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} in
+                  {{ `${destCurrency.call} ${destCurrency.currency_name}` }}?</span>
+              </div>
+              <div>
+                <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
+                  1 {{ srcCurrency.currency_code }} =
+                  {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                  {{ destCurrency.currency_code }}
+                </h2>
+              </div>
+
+              <hr class="w-full" />
+
+              <div class="flex w-full justify-around mt-3 flex-wrap">
+                <div class="flex flex-col items-center">
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    Check this
+                    currency</Link>
+                  </div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
+                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
+                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
+                  </div>
+                  <div>
+                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
+                      srcCurrency.currency_sign
+                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
+                      destCurrency.currency_sign
+                    }})
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    Check this
+                    currency</Link>
+                  </div>
+                  <div class="currency-flag">
+                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
+                      ? ''
+                      : destCurrency.call.toLowerCase() + '-'
+                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    {{
+                      `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
+                  </div>
+                  <div>
+                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
+                      destCurrency.currency_sign
+                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
+                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
+                      srcCurrency.currency_sign
+                    }})
+                  </div>
+                </div>
+              </div>
+
+              <hr class="w-full mt-4 mb-2 border" />
+
+              <div>
+                <p>
+                  On this page, you can find conversion of
+                  <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
+                    {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
+                  Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
+                  exchange rate between them, updated at {{ srcCurrency.date }}. If you want to calculate
+                  <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
+                  then please go to
+                  <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{
+                    srcCurrency.currency_code }} calculator</Link> or
+                  <Link :href="genCalculatorLink(destCurrency)" class="text-blue-500 hover:text-gray-500">{{
+                    destCurrency.currency_code }} calculator</Link>. Our money
+                  converter is using actual average data from different currency rates sources.
+                </p>
+              </div>
+            </div>
+            <div>
+              <Tabs :countries="countries" :src="srcCurrency" />
+            </div>
 
             <div>
-              <p>
-                On this page, you can find conversion of
-                <b>1 Romanian Leu (RON) to Euro (EUR)</b>. Calculator shows the exchange
-                rate of the two currencies conversion. Please find above the latest
-                exchange rate between them, updated at 2024-06-18 01:54:00. If you want to
-                calculate <b>Romanian Leu</b> or to many currencies, then please go to
-                <a>RON calculator</a> or <a>EUR calculator</a>. Our money converter is
-                using actual average data from different currency rates sources.
-              </p>
+              <div class="border p-2">
+                {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
+                currency in the following countries: {{ srcCurrency.country_name }}
+              </div>
               <br />
-              <p>
-                AZconvert.com is a very useful and convenient currency converter and
-                calculator. You can quickly check the current exchange rates from any
-                country in the world. You just need to put the amount of money you are
-                converting into the box and choose the necessary currencies, e.g. EUR to
-                USD, USD to GBP, EUR to GBP or INR to USD. You can also use our calculator
-                to see what amount of money specified in all the different currencies at
-                one time. Don't forget the charts, to get a quick overview of FX rates in
-                the past 30 days.
-              </p>
+              <div class="border p-2">
+                Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
+                  (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
+                into your page:
+              </div>
+              <textarea
+                class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
+          </div>
+          <div class="lg:block md:hidden sm:hidden hidden">
+            <CurrienciesView :countries="countries" />
           </div>
         </div>
       </div>

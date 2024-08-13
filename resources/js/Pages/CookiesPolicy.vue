@@ -11,7 +11,7 @@ import { Head } from "@inertiajs/vue3";
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900 cookies-policy">
-            <article class="article" itemscope="" itemtype="http://schema.org/Article">
+            <article class="article" itemtype="http://schema.org/Article">
               <meta itemprop="inLanguage" content="en" />
               <meta itemprop="url" content="/cookies-policy.html" />
 
