@@ -20,18 +20,7 @@ Route::get('/cookies-policy', function() {
     return Inertia::render('CookiesPolicy');
 })->name('cookies-policy');
 
-Route::get('/currencies/pairs/{value}', function($value) {
-    if(preg_match('/([a-z-]+)-page/i', $value, $matches)) {
-        print_r("Hello1");
-        dd($matches);
-    } else if(preg_match('/([a-z-]+)-calculator/i', $value, $matches)) {
-        print_r("Hello2");
-        dd($matches);
-    } else if(preg_match('/([0-9]+)-([a-z-]+)-to-([a-z-]+)/i', $value, $matches)) {
-        print_r("Hello3");
-        dd($matches);
-    }
-});
+Route::get('/currencies/pairs/{value}', [HomeController::class, 'page'])->name('page');
 
 Route::get('/hello', function () {
     return Inertia::render('Welcome', [
