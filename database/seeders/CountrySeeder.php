@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Country;
 
 class CountrySeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class CountrySeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            ['country_code' => 'AF', 'country_name' => 'Afghanistan', 'currency_name' => 'Afghani', 'currency_code' => 'AFN', 'currency_sign' => '؋', 'call' => 'Afghans'],
+            ['country_code' => 'AF', 'country_name' => 'Afghanistan', 'currency_name' => 'Afghani', 'currency_code' => 'AFN', 'currency_sign' => '؋', 'call' => 'Afghans', 'order' => 0],
             ['country_code' => 'AL', 'country_name' => 'Albania', 'currency_name' => 'Lek', 'currency_code' => 'ALL', 'currency_sign' => 'L', 'call' => 'Albanians'],
             ['country_code' => 'DZ', 'country_name' => 'Algeria', 'currency_name' => 'Algerian Dinar', 'currency_code' => 'DZD', 'currency_sign' => 'د.ج', 'call' => 'Algerians'],
             ['country_code' => 'AD', 'country_name' => 'Andorra', 'currency_name' => 'Euro', 'currency_code' => 'EUR', 'currency_sign' => '€', 'call' => 'Andorrans'],
@@ -231,6 +232,9 @@ class CountrySeeder extends Seeder
             ['country_code' => 'HK', 'country_name' => 'Hong Kong', 'currency_name' => 'Hong Kong Dollar', 'currency_code' => 'HKD', 'currency_sign' => '$', 'call' => 'Hong Kong', 'order' => 20]
         ];
 
-        DB::table('countries')->insert($countries);
+        foreach($countries as $country) {
+            Country::create($country);
+        }
+        // DB::table('countries')->insert($countries);
     }
 }
