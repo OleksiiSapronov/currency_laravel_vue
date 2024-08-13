@@ -8,8 +8,8 @@
         If you want to calculate  {{ src.call }} {{ src.currency_name }} to other currencies, go to converter page  {{ src.call }} {{ src.currency_name }} , or currency page {{ src.call }} {{ src.currency_name }}.
       </div>
     </div>  
-    <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+    <table class="w-full text-left rtl:text-right text-gray-500">
+      <thead class="text-gray-700 bg-gray-50 font-bold">
         <tr>
           <th scope="col" class="px-1 py-2 border">
             Currency
@@ -36,7 +36,7 @@
         </tr>
 
         <tr v-for="country in props.countries" :key="country.id"
-          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
             <img :src="genFlagUrl(country.country_code)" class="inline-block" />

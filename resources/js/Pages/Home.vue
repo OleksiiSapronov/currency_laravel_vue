@@ -283,8 +283,8 @@ const props = withDefaults(defineProps<{
 
             <div>
               <div class="text-lg font-bold mt-6 mb-1">Currency converter. Check the current exchange rate of {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }}</div>
-              <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+              <table class="w-full text-left rtl:text-right text-gray-500">
+                <thead class="text-gray-700 bg-gray-50 font-bold">
                   <tr>
                     <th scope="col" class="px-1 py-2 border">
                       {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} ({{ srcCurrency.call }} {{ srcCurrency.currency_name }})
