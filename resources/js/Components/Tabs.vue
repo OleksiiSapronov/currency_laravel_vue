@@ -22,7 +22,7 @@
       <div class="tab-content">
         <div v-for="tab in tabLabels" v-bind:class="{ hidden: openTab !== tab.id, block: openTab === tab.id }">
           <div class="relative overflow-x-auto">
-            <CurrencyTable :countries="props.countries" :src="props.src"/>
+            <CurrencyTable :countries="props.countries" :src="props.src" :group="tab.label" />
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Country } from '@/types';
 import CurrencyTable from './CurrencyTable.vue';
 
@@ -45,13 +45,13 @@ const props = withDefaults(
 );
 
 const tabLabels = [
-  { name: "Main currencies", id: 1 },
-  { name: "North, Central and South America", id: 2 },
-  { name: "Europe", id: 3 },
-  { name: "Middle East", id: 4 },
-  { name: "Asia", id: 5 },
-  { name: "Oceania & Pacific", id: 6 },
-  { name: "Africa", id: 7 },
+  { name: "Main currencies", id: 1, label: 'Worldwide' },
+  { name: "North, Central and South America", id: 2, label: 'America' },
+  { name: "Europe", id: 3, label: 'Europe'},
+  { name: "Middle East", id: 4, label: 'MiddleEastAsia' },
+  { name: "Asia", id: 5, label: 'Asia' },
+  { name: "Oceania & Pacific", id: 6, label: 'Oceania' },
+  { name: "Africa", id: 7, label: 'Africa' },
 ];
 
 const openTab = ref(1);

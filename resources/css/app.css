@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+img {
+    width: 32px;
+    height: 24px;
+}
+
 .fs-22 {
     font-size: 1.5rem;
 }

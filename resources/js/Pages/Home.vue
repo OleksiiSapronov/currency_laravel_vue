@@ -7,6 +7,7 @@ import CurrienciesView from "@/Components/CurrienciesView.vue";
 import { Country } from "@/types";
 import { genCurrencyLink, genFlagUrl, genCurrencyFullName, SERVER_URL, genCalculatorLink } from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
+import moment from "moment";
 
 const props = withDefaults(defineProps<{
   countries: [Country];
@@ -39,7 +40,7 @@ const props = withDefaults(defineProps<{
                 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
                 {{ srcCurrency.currency_code }} - Current currency exchange converter page
               </div>
-              <p>Last update {{ new Date(srcCurrency.date) }}.</p>
+              <p>Last update {{ moment(srcCurrency.date).format('DD MMMM YYYY HH:mm [UTC]') }}.</p>
             </div>
 
             <!-- Convert Flags -->
@@ -196,7 +197,7 @@ const props = withDefaults(defineProps<{
 
       <!-- Convert src to dest -->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="mode == 2">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6">
           <div>
             <div class="mb-3">
               <h1 class="fs-22 font-bold">

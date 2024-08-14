@@ -48,6 +48,7 @@ export const genCalculatorLink = (country: Country): string => {
 }
 
 export const genFlagUrl = (code: string): string => {
+  if(code == "WW") return `https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=032`;
   return `https://flagcdn.com/32x24/${code.toLowerCase()}.png`;
 };
 

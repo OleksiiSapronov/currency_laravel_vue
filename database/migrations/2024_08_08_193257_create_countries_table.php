@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('currency_name');
             $table->string('currency_code');
             $table->string('currency_sign');
+            $table->string('continent');
             $table->string('call');
             $table->float('value')->default(0);
             $table->dateTime('date')->nullable();
             $table->integer('order')->default(0);
+            $table->integer('group')->default(0);
             $table->timestamps();
         });
     }

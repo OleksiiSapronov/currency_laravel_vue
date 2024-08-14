@@ -17,8 +17,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="country in props.countries" :key="country.id"
-        class="bg-white border-b">
+      <tr v-for="country in dispCountries" 
+        :key="country.id"
+        class="bg-white border-b"
+        >
         <th class="p-1 border text-md">
           <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
             <img :src="genFlagUrl(country.country_code)" class="inline-block" /> 
@@ -50,12 +52,21 @@
 import { Country } from "@/types";
 import { Link } from "@inertiajs/vue3";
 import { genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";
+import { computed } from "vue";
 
 const props = withDefaults(
   defineProps<{
     countries: [Country];
     src: Country;
+    group: string;
   }>(),
   {}
 );
+
+const dispCountries = computed(() => {
+  if(props.group == "Worldwide")
+    return props.countries.filter((item: Country) => item.order > 10 && item.value > 0)   
+  else 
+    return props.countries.filter((item: Country) => item.continent === props.group && item.value > 0)
+})
 </script>

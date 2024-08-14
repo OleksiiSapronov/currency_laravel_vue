@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Country } from "@/types";
+import { genFlagUrl } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
@@ -24,9 +25,6 @@ const otherCurrencies = computed(() => {
   );
 });
 
-const getFlagUrl = function (code: string) {
-  return `https://flagcdn.com/32x24/${code.toLowerCase()}.png`;
-};
 </script>
 
 <template>
@@ -38,7 +36,7 @@ const getFlagUrl = function (code: string) {
           :href="`/currencies/pairs/${
             country.call == '' ? '' : country.call.toLowerCase() + '-'
           }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="getFlagUrl(country.country_code)"
+          ><img :src="genFlagUrl(country.country_code)"
         /></Link>
         <div class="currency-flag">
           <Link
@@ -61,7 +59,7 @@ const getFlagUrl = function (code: string) {
           :href="`/currencies/pairs/${
             country.call == '' ? '' : country.call.toLowerCase() + '-'
           }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="getFlagUrl(country.country_code)"
+          ><img :src="genFlagUrl(country.country_code)"
         /></Link>
         <div class="currency-flag">
           <Link

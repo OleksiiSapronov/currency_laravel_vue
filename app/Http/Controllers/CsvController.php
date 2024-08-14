@@ -50,8 +50,6 @@ class CsvController extends Controller
                 }
             }
             fclose($handle);
-
-            dd($rows);
         }
     }
 }

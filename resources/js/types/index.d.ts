@@ -21,6 +21,7 @@ export interface Country {
     currency_sign: string;
     currency_code: string;
     currency_name: String;
+    continent: String;
     call: string;
     date: Date;
     value: number;
