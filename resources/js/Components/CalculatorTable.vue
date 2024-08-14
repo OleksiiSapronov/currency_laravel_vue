@@ -35,7 +35,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.order >= 10 && item.value > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -69,10 +69,66 @@
           </th>
         </tr>
 
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Asia' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
+        </tr>
+
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
             Africa
           </th>
+        </tr>
+
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Africa' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
         </tr>
 
         <tr>
@@ -81,10 +137,66 @@
           </th>
         </tr>
 
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Europe' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
+        </tr>
+
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
             Middle East
           </th>
+        </tr>
+
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'MiddleEastAsia' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
         </tr>
 
         <tr>
@@ -93,17 +205,75 @@
           </th>
         </tr>
 
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'America' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
+        </tr>
+
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
             Oceania & Pacific
           </th>
         </tr>
+
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Oceania' && item.value > 0)" :key="country.id"
+          class="bg-white border-b">
+          <th class="p-1 border text-md">
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
+            <img :src="genFlagUrl(country.country_code)" class="inline-block" />
+            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+            </Link>
+          </th>
+          <td class="p-1 border text-sm">
+            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+          </td>
+          <td class="p-1 border text-sm">
+            {{ country.date }}
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
+            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            </Link>
+          </td>
+          <td class="p-1 border text-sm">
+            <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
+            FX calculator {{ country.currency_code }} 
+            </Link>
+          </td>
+        </tr>
+
       </tbody>
     </table>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Country } from "@/types";
 import { Link } from "@inertiajs/vue3";
 import { genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";

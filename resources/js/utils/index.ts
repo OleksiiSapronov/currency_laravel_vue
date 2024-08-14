@@ -38,10 +38,11 @@ export const genConvertLink = (src: Country, dest: Country, value: number = 1): 
  * @param country Country
  * @output indonesian-rupiah-idr-calculator
  */
-export const genCalculatorLink = (country: Country): string => {
+export const genCalculatorLink = (country: Country, amount: number = 0): string => {
   let out = "";
+  if(amount > 0) out += amount + '-';
   if (country.call != "") out += country.call + "-";
-  out += country.currency_name.replace(' ', '-')
+  out += country.currency_name.replace(' ', '-');
   out += '-' + country.currency_code;
   out += '-calculator';
   return "/currencies/pairs/" + out.toLowerCase();

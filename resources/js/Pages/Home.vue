@@ -376,7 +376,7 @@ const props = withDefaults(defineProps<{
           <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="props.balance" :mode="1"/>
 
           <div>
-            <CalculatorTable :countries="countries" :src="srcCurrency" :value="props.balance" />
+            <CalculatorTable :countries="countries" :src="srcCurrency" :balance="props.balance" />
           </div>
           
           <div>

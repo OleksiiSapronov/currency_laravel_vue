@@ -80,17 +80,15 @@
     />
 
     <select
-      id="country"
-      name="country"
       autocomplete="country-name"
       class="w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+      v-model="destValue"
     >
       <optgroup label="Main currencies">
         <option
           v-for="country in mainCurrencies"
           :key="country.id"
           :value="country.id"
-          :selected="src.id == country.id"
         >
           {{ country.currency_code }} - {{ country.call }} {{ country.currency_name }}
         </option>
@@ -100,7 +98,6 @@
           v-for="country in countries"
           :key="country.id"
           :value="country.id"
-          :selected="src.id == country.id"
         >
           {{ country.currency_code }} - {{ country.call }} {{ country.currency_name }}
         </option>
@@ -110,7 +107,7 @@
     <button
       type="button"
       class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
-      
+      @click="handleRedirectCalculator"
     >
       CONVERT
     </button>
@@ -121,7 +118,7 @@
 import { computed, onMounted, ref } from "vue";
 import { Country } from "@/types";
 import { router } from "@inertiajs/vue3";
-import { genConvertLink } from "@/utils";
+import { genConvertLink, genCalculatorLink } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
@@ -158,5 +155,9 @@ const mainCurrencies = computed(() => {
 
 const handleRedirect = (): void => {
   router.visit(genConvertLink(countriesTable[srcValue.value], countriesTable[destValue.value], quantity.value));
+}
+
+const handleRedirectCalculator = (): void => {
+  router.visit(genCalculatorLink(countriesTable[destValue.value], quantity.value));
 }
 </script>
