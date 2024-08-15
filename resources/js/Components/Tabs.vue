@@ -3,7 +3,7 @@
   <div class="tabs-header">
     <ul class="flex border-b flex-wrap">
       <li v-for="tab in tabLabels" :key="tab.id" :class="openTab === tab.id ? activeClasses : inactiveClasses"
-        class="-mb-px mr-1 font-semibold overflow-hidden" :role="openTab !== tab.id ? 'button' : 'none'"
+        class="-mb-px mr-1 font-semibold overflow-hidden"
         @click="openTab = tab.id">
         <span :class="openTab !== tab.id && 'hover:bg-gray-100'" class="bg-white py-2 px-4 inline-flex">
           {{ tab.name }}
