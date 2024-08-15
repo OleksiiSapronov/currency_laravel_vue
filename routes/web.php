@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -9,8 +10,14 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/upload-csv', [CsvController::class, 'index'])->name('upload.csv.index');
-Route::post('/upload-csv', [CsvController::class, 'upload'])->name('upload-csv');
+Route::prefix('/admin')->group(function() {
+    Route::resource('/countries', CountryController::class);
+
+    Route::get('/upload-csv', [CsvController::class, 'index'])->name('upload.csv.index');
+    Route::post('/upload-csv', [CsvController::class, 'upload'])->name('upload-csv');
+    Route::get('/upload-api', [CsvController::class, 'uploadApi'])->name('upload-api');
+});
+
 
 Route::get('/contact', function() {
     return Inertia::render('Contact');

@@ -4,7 +4,7 @@
       <div class="text-lg font-bold">Currency Exchange Rate calculator  {{ src.call }} {{ src.currency_name }} - {{ src.currency_name }} to all worldwide currencies.</div>
       <div>
         On the calculator page, you can find conversion of <b>{{ balance }} {{ src.call }} {{ src.currency_name }}</b> to all worldwide currencies. 
-        Please find latest calculation rates between them, updated at {{ src.date }}. 
+        Please find latest calculation rates between them, updated at {{ src.latest_currency['date'] }}. 
         If you want to calculate  {{ src.call }} {{ src.currency_name }} to other currencies, go to converter page  {{ src.call }} {{ src.currency_name }} , or currency page {{ src.call }} {{ src.currency_name }}.
       </div>
     </div>  
@@ -49,7 +49,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -83,7 +83,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -117,7 +117,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -151,7 +151,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -185,7 +185,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -219,7 +219,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
@@ -253,7 +253,7 @@
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
-            {{ country.date }}
+            {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">

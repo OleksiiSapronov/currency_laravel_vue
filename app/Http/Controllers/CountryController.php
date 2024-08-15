@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
 use App\Models\Country;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Cache;
 
 class CountryController extends Controller
 {
@@ -13,7 +15,10 @@ class CountryController extends Controller
      */
     public function index()
     {
-        //
+        $countries = Country::orderBy('top_currency', 'DESC')->orderBy('display_order', 'DESC')->get();
+        return Inertia::render('Country', [
+            'countries' => $countries
+        ]);
     }
 
     /**
@@ -53,7 +58,8 @@ class CountryController extends Controller
      */
     public function update(UpdateCountryRequest $request, Country $country)
     {
-        //
+        Cache::clear();
+        $country->update($request->all());
     }
 
     /**

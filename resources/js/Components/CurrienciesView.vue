@@ -15,13 +15,13 @@ const props = withDefaults(
 const mainCurrencies = computed(() => {
   return (props.countries || []).filter(
     (item): item is Country =>
-      item !== null && item !== undefined && item.order > 10 && item.order < 30
+      item.display === "main"
   );
 });
 
 const otherCurrencies = computed(() => {
   return (props.countries || []).filter(
-    (item): item is Country => item !== null && item !== undefined && item.order > 30
+    (item): item is Country => item.display === "other"
   );
 });
 

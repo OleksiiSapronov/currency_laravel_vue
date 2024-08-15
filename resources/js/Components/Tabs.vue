@@ -11,9 +11,9 @@
       </li>
     </ul>
     <div class="p-2">
-      <b>Currency exchange rates table of the Romanian Leu (RON), updated at 2024-06-18 01:54:00</b>
+      <b>Currency exchange rates table of the {{ src.call }} {{ src.currency_name }} ({{ src.currency_code }}), updated at {{ src.latest_currency['date'] }}</b>
       <br />
-      On this page you will find list of the mutual conversions of the <b>Romanian Leu (Romanian Leu) currency and other
+      On this page you will find list of the mutual conversions of the <b>{{ src.call }} {{ src.currency_name }} ({{ src.call }} {{ src.currency_name }}) currency and other
         major world currencies.</b>
     </div>
   </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { Country } from '@/types';
 import CurrencyTable from './CurrencyTable.vue';
 
@@ -55,6 +55,6 @@ const tabLabels = [
 ];
 
 const openTab = ref(1);
-const activeClasses = 'border-l border-t border-r rounded-t text-blue-700';
-const inactiveClasses = 'text-gray-500 hover:text-blue-700 truncate max-w-20';
+const activeClasses = 'border-l border-t border-r rounded-t text-blue-700 bg-gray-100';
+const inactiveClasses = 'text-gray-500 hover:text-blue-700 truncate';
 </script>

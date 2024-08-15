@@ -14,6 +14,13 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     ziggy: Config & { location: string };
 };
 
+export interface Currency {
+    id: number;
+    date: Date;
+    balance: number;
+    currency_code: string;
+}
+
 export interface Country {
     id: number;
     country_name: string;
@@ -26,4 +33,9 @@ export interface Country {
     date: Date;
     value: number;
     order: number;
+    top_currency: number;
+    top_order: number;
+    display: string;
+    display_order: number;
+    latest_currency: Currency;
 }

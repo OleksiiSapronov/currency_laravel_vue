@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Currency;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,6 +13,42 @@ class CsvController extends Controller
 {
     public function index() {
         return Inertia::render('UploadCSV');
+    }
+
+    private function parseRate($data) {
+        $time = date('Y-m-d H:i:s', $data['timestamp']);
+        $res = array(['currency_code' => 'GBP', 'balance' => 1, 'date' => $time]);
+        foreach($data['quotes'] as $key => $value) {
+            $res[] = array('currency_code' => substr($key, 3), 'balance' => $value, 'date' => $time);
+        }
+        Currency::insert($res);
+    }
+
+    public function uploadApi(Request $request) {
+        $day = date("Y-m-d");
+        // $date = new Carbon($day);
+        // $day = $date->subMonth()->format('Y-m-d');
+        $ch = curl_init('https://apilayer.net/api/historical?access_key=1b557473e8cc9b2747c6037df7a993c8&currencies=&source=GBP&format=1&date='.$day);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $json = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+        if ($curlError) {
+            // Handle cURL error
+            return response()->json(['error' => 'cURL Error: ' . $curlError], 500);
+        }
+        if ($httpCode >= 200 && $httpCode < 300) {
+            // Successful response
+            $exchangeRates = json_decode($json, true);
+            $this->parseRate($exchangeRates);
+            dd($exchangeRates);
+            return response()->json(['success' => true]);
+        } else {
+            // Handle HTTP error
+            return response()->json(['error' => 'HTTP Error: ' . $httpCode, 'response' => $json], $httpCode);
+        }
     }
 
     public function upload(Request $request)

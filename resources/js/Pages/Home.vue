@@ -4,8 +4,8 @@ import { Head, Link } from "@inertiajs/vue3";
 import Tabs from "@/Components/Tabs.vue";
 import Converter from "@/Components/Converter.vue";
 import CurrienciesView from "@/Components/CurrienciesView.vue";
-import { Country } from "@/types";
-import { genCurrencyLink, genFlagUrl, genCurrencyFullName, SERVER_URL, genCalculatorLink } from "@/utils";
+import { Country, Currency } from "@/types";
+import { genCurrencyLink, genFlagUrl, genCurrencyFullName, SERVER_URL, genCalculatorLink, genConvertLink } from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
 import moment from "moment";
 
@@ -16,9 +16,12 @@ const props = withDefaults(defineProps<{
   destCurrency: Country;
   balance?: number;
   mode?: number;
+  past?: [Currency];
+  ranges?:[number[], number[]];
 }>(), {
   balance: 1,
-  mode: 1
+  mode: 1,
+  ranges: [[0], [0]]
 });
 </script>
 
@@ -40,13 +43,13 @@ const props = withDefaults(defineProps<{
                 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
                 {{ srcCurrency.currency_code }} - Current currency exchange converter page
               </div>
-              <p>Last update {{ moment(srcCurrency.date).format('DD MMMM YYYY HH:mm [UTC]') }}.</p>
+              <p>Last update {{ moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }}.</p>
             </div>
 
             <!-- Convert Flags -->
-            <div class="text-gray-900 flex p-3 gap-3 justify-center flex-wrap">
+            <div class="text-gray-900 flex p-3 gap-3 justify-center">
               <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
-                ? 'flex flex-col items-center gap-1 pr-10'
+                ? 'flex flex-col items-center gap-1 pr-10 text-nowrap'
                 : 'flex flex-col items-center gap-1'
                 ">
                 <div v-if="index != 0">
@@ -147,7 +150,7 @@ const props = withDefaults(defineProps<{
                   <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
                     {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
                   Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
-                  exchange rate between them, updated at {{ srcCurrency.date }}. If you want to calculate
+                  exchange rate between them, updated at {{ srcCurrency.latest_currency['date'] }}. If you want to calculate
                   <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
                   then please go to
                   <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{
@@ -266,7 +269,7 @@ const props = withDefaults(defineProps<{
 
               <hr class="w-full mt-3 mb-2" />
 
-              <p>Last update {{ new Date(srcCurrency.date) }}.</p>
+              <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}.</p>
             </div>
 
             <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="balance"/>
@@ -296,16 +299,40 @@ const props = withDefaults(defineProps<{
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in [100, 200, 500, 1000, 2000, 5000, 10000, 50000, 100000, 200000]" :key="item">
+                  <tr v-for="(item, index) in props.ranges?.[0]" :key="item">
                     <td class="p-1 border">
-                      {{ new Intl.NumberFormat().format(item) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
+                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item * destCurrency.value / srcCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
                       {{ new Intl.NumberFormat().format(Math.round(item * destCurrency.value / srcCurrency.value * 1e5) / 1e5)  }} 
-                      {{ destCurrency.currency_code }}
+                      {{ destCurrency.currency_code }}</Link>
                     </td>
                     <td class="p-1 border">
-                      {{ new Intl.NumberFormat().format(item / 10) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item * srcCurrency.value / destCurrency.value * 1e4) / 1e5)  }} 
-                      {{ srcCurrency.currency_code }}
+                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(props.ranges[1][index] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(props.ranges[1][index]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(props.ranges[1][index] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)  }} 
+                      {{ srcCurrency.currency_code }}</Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="text-lg font-bold mt-6 mb-1">Currency exchange history from {{ moment(Date.now()).format("dddd DD MMMM, YYYY") }} to {{ moment(Date.now() - 60 * 60 * 24 * 30).format("dddd DD MMMM, YYYY") }}</div>
+              <table class="w-full text-left rtl:text-right text-gray-500">
+                <thead class="text-gray-700 bg-gray-50 font-bold">
+                  <tr>
+                    <th scope="col" class="px-1 py-2 border">
+                      Date
+                    </th>
+                    <th scope="col" class="px-1 py-2 border">
+                      {{ srcCurrency.currency_name }} = {{ destCurrency.currency_name }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in past" :key="item.id">
+                    <td class="p-1 border">
+                      {{ moment(item.date).format("dddd DD MMMM, YYYY") }}
+                    </td>
+                    <td class="p-1 border">
+                      <Link :href="genConvertLink(destCurrency, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ balance }} {{ srcCurrency.currency_code }}</Link> = <Link :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.value / srcCurrency.value * 1e5) / 1e5))" class="text-blue-500 hover:text-gray-500">{{ Math.round(balance * destCurrency.value / srcCurrency.value * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</Link>
                     </td>
                   </tr>
                 </tbody>
@@ -319,9 +346,9 @@ const props = withDefaults(defineProps<{
                   :key="country.id" 
                   class="w-1/2 p-2 border text-gray-500"
                   >
-                  {{ new Intl.NumberFormat().format(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
-                  {{ new Intl.NumberFormat().format(Math.round(balance * country.value / srcCurrency.value * 1e5) / 1e5) }} 
-                  {{ country.currency_name }} {{ country.currency_code }}
+                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }})</Link> = 
+                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(Math.round(balance * country.value / srcCurrency.value * 1e5) / 1e5) }} 
+                  {{ country.currency_name }} {{ country.currency_code }}</Link>
                 </div>
               </div>
             </div>
@@ -340,7 +367,7 @@ const props = withDefaults(defineProps<{
               {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
               ({{ srcCurrency.currency_code }}) Currency Exchange Rate calculator
             </div>
-            <p>Last update {{ new Date(srcCurrency.date) }}.</p>
+            <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}.</p>
           </div>
 
           <div class="text-gray-900 flex p-3 gap-3 justify-between flex-wrap">
@@ -403,7 +430,7 @@ const props = withDefaults(defineProps<{
               <h1 class="fs-22 font-bold">
                 {{ genCurrencyFullName(props.srcCurrency) }} - Current currency exchange converter page
               </h1>
-              <p>Last update {{ new Date(srcCurrency.date) }}</p>
+              <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}</p>
             </div>
 
             <div class="text-gray-900 flex p-3 gap-3 justify-center flex-wrap">
@@ -512,7 +539,7 @@ const props = withDefaults(defineProps<{
                   <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
                     {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
                   Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
-                  exchange rate between them, updated at {{ srcCurrency.date }}. If you want to calculate
+                  exchange rate between them, updated at {{ srcCurrency.latest_currency['date'] }}. If you want to calculate
                   <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
                   then please go to
                   <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{

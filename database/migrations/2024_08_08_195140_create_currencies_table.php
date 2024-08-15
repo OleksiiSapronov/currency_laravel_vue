@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->integer('country_id');
+            $table->string('currency_code')->nullable();
             $table->float('balance')->default(0);
+            $table->dateTime('date')->nullable();
             $table->timestamps();
         });
     }
