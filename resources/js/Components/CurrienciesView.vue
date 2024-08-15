@@ -31,7 +31,7 @@ const otherCurrencies = computed(() => {
   <div class="flex flex-col whitespace-nowrap min-w-64">
     <div class="flex flex-col gap-5">
       <h1 class="mt-12 font-semibold">Main curriencies</h1>
-      <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2">
+      <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2 items-center">
         <Link
           :href="`/currencies/pairs/${
             country.call == '' ? '' : country.call.toLowerCase() + '-'
