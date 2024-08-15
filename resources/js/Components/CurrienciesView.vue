@@ -36,8 +36,8 @@ const otherCurrencies = computed(() => {
           :href="`/currencies/pairs/${
             country.call == '' ? '' : country.call.toLowerCase() + '-'
           }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="genFlagUrl(country.country_code)"
-        /></Link>
+          ><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+        </Link>
         <div class="currency-flag">
           <Link
             :href="`/currencies/pairs/${
@@ -59,8 +59,7 @@ const otherCurrencies = computed(() => {
           :href="`/currencies/pairs/${
             country.call == '' ? '' : country.call.toLowerCase() + '-'
           }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="genFlagUrl(country.country_code)"
-        /></Link>
+          ><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
         <div class="currency-flag">
           <Link
             :href="`/currencies/pairs/${

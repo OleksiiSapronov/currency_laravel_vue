@@ -51,10 +51,10 @@ const props = withDefaults(defineProps<{
                 ">
                 <div v-if="index != 0">
                   <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
-                    :src="genFlagUrl(country.country_code)" /></Link>
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
+                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
                 </div>
-                <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
+                <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
                 <div v-if="index != 0" class="currency-flag">
                   <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
                     }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
@@ -350,10 +350,10 @@ const props = withDefaults(defineProps<{
               ">
               <div v-if="index != 0">
                 <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
-                  :src="genFlagUrl(country.country_code)" /></Link>
+                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
+                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
               </div>
-              <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
+              <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
               <div v-if="index != 0" class="currency-flag">
                 <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
                   }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
@@ -413,10 +413,10 @@ const props = withDefaults(defineProps<{
                 ">
                 <div v-if="index != 0">
                   <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`"><img
-                    :src="genFlagUrl(country.country_code)" /></Link>
+                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
+                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
                 </div>
-                <div v-else><img :src="genFlagUrl(country.country_code)" /></div>
+                <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
                 <div v-if="index != 0" class="currency-flag">
                   <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
                     }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{

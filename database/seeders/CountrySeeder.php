@@ -1970,7 +1970,7 @@ class CountrySeeder extends Seeder
             [
                 'country_code' => 'WW',
                 'country_name' => 'MAIN_WORLDWIDE',
-                'currency_name' => 'MAIN_BITCOIN',
+                'currency_name' => 'Bitcoin',
                 'currency_code' => 'BTC',
                 'currency_sign' => 'Ƀ',
                 'call' => '',
