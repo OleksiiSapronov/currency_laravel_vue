@@ -77,9 +77,9 @@ class HomeController extends Controller
     }
 
     private function getTopCurrencies() {
-        return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
+        // return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
             return Country::with('latestCurrency')->where('top_currency', true)->orderBy('top_order')->limit(12)->get();
-        });
+        // });
     }
 
     public function index() {
@@ -116,6 +116,8 @@ class HomeController extends Controller
                         
             $destCurrency = Country::with('latestCurrency')->where('country_code', 'EU')->first();
             
+            $topCountries[0] = $srcCountry;
+
             return Inertia::render('Home', [
                 'countries' => $countries,
                 'topCountries' => $topCountries,
@@ -128,6 +130,8 @@ class HomeController extends Controller
             $srcCountry = Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
             $balance = floatval($data[0]);
+
+            $topCountries[0] = $srcCountry;
 
             return Inertia::render('Home', [
                 'countries' => $countries,
@@ -151,6 +155,8 @@ class HomeController extends Controller
             for($i = 0; $i < count($ranges[0]); $i ++) {
                 $range[] = array($ranges[0][$i], $ranges[1][$i]);
             }
+            $topCountries[0] = $srcCountry;
+
             return Inertia::render('Home', [
                 'countries' => $countries,
                 'topCountries' => $topCountries,

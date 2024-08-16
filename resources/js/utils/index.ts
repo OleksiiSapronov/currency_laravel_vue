@@ -10,7 +10,7 @@ export const SERVER_URL = "https://phpstack-1255990-4653753.cloudwaysapps.com";
  */
 export const genCurrencyLink = (src: Country): string => {
   let out = "";
-  if (src.call !== "") out += src.call + "-";
+  if (src.call != "" && src.call != " ") out += src.call + "-";
   out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-page';
   return "/currencies/pairs/" + out.toLowerCase();
 }
@@ -23,7 +23,7 @@ export const genCurrencyLink = (src: Country): string => {
  */
 export const genConvertLink = (src: Country, dest: Country, value: number = 1): string => {
   let out = `${value}-`;
-  if (src.call !== "") {
+  if (src.call != "" && src.call != " ") {
     out += src.call + "-";
   }
   out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-to-';
@@ -41,7 +41,7 @@ export const genConvertLink = (src: Country, dest: Country, value: number = 1): 
 export const genCalculatorLink = (country: Country, amount: number = 0): string => {
   let out = "";
   if(amount > 0) out += amount + '-';
-  if (country.call != "") out += country.call + "-";
+  if (country.call != "" && country.call != " ") out += country.call + "-";
   out += country.currency_name.replace(' ', '-');
   out += '-' + country.currency_code;
   out += '-calculator';
