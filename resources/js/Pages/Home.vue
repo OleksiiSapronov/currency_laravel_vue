@@ -5,7 +5,14 @@ import Tabs from "@/Components/Tabs.vue";
 import Converter from "@/Components/Converter.vue";
 import CurrienciesView from "@/Components/CurrienciesView.vue";
 import { Country, Currency } from "@/types";
-import { genCurrencyLink, genFlagUrl, genCurrencyFullName, SERVER_URL, genCalculatorLink, genConvertLink } from "@/utils";
+import { 
+  genCurrencyLink, 
+  genFlagUrl, 
+  genCurrencyFullName, 
+  SERVER_URL, 
+  genCalculatorLink, 
+  genConvertLink 
+} from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
 import moment from "moment";
 
@@ -134,30 +141,20 @@ const props = withDefaults(defineProps<{
               <hr class="w-full mt-4 mb-2 border" />
 
               <div>
-                <p>
-                  On this page, you can find conversion of
-                  <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
-                    {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
-                  Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
-                  exchange rate between them, updated at {{ srcCurrency.latest_currency['date'] }}. If you want to calculate
-                  <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
-                  then please go to
-                  <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{
-                    srcCurrency.currency_code }} calculator</Link> or
-                  <Link :href="genCalculatorLink(destCurrency)" class="text-blue-500 hover:text-gray-500">{{
-                    destCurrency.currency_code }} calculator</Link>. Our money
-                  converter is using actual average data from different currency rates sources.
-                </p>
+                <p v-html="$t('PAGE_CONTENT', {
+                  amount: 1,
+                  src_cuname: `${srcCurrency.call} ${srcCurrency.currency_name}`,
+                  src_code: srcCurrency.currency_code,
+                  dest_cuname: `${ srcCurrency.call } ${ srcCurrency.currency_name }`,
+                  dest_code: destCurrency.currency_code,
+                  src_date: srcCurrency.latest_currency['date'],
+                  link1: genCalculatorLink(srcCurrency),
+                  link2: genCalculatorLink(destCurrency)
+                })"></p>
+                
                 <br />
                 <p>
-                  AZconvert.com is a very useful and convenient currency converter and
-                  calculator. You can quickly check the current exchange rates from any
-                  country in the world. You just need to put the amount of money you are
-                  converting into the box and choose the necessary currencies, e.g. EUR to
-                  USD, USD to GBP, EUR to GBP or INR to USD. You can also use our
-                  calculator to see what amount of money specified in all the different
-                  currencies at one time. Don't forget the charts, to get a quick overview
-                  of FX rates in the past 30 days.
+                  {{ $t('ABOUT_SITE') }}
                 </p>
               </div>
             </div>
