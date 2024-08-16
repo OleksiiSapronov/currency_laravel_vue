@@ -141,14 +141,17 @@ class HomeController extends Controller
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
 
             $ranges = $this->getRange($srcCountry['currency_code'], $destCountry['currency_code']);
-
+            $range = array();
+            for($i = 0; $i < count($ranges[0]); $i ++) {
+                $range[] = array($ranges[0][$i], $ranges[1][$i]);
+            }
             return Inertia::render('Home', [
                 'countries' => $countries,
                 'topCountries' => $topCountries,
                 'srcCurrency' => $srcCountry,
                 'destCurrency' => $destCountry,
                 'mode' => 2,
-                'ranges' => $ranges,
+                'range' => $range,
                 'past' => $srcCountry->currencies()->where('date', '>', \Carbon\Carbon::now()->subDays(31))->orderBy('date')->get(),
                 'balance' => $amount == 0 ? 100 : $amount
             ]);

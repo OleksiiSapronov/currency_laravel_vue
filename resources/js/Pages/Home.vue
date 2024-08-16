@@ -17,11 +17,10 @@ const props = withDefaults(defineProps<{
   balance?: number;
   mode?: number;
   past?: [Currency];
-  ranges?:[number[], number[]];
+  range?: Array<Array<number>>;
 }>(), {
   balance: 1,
-  mode: 1,
-  ranges: [[0], [0]]
+  mode: 1
 });
 </script>
 
@@ -299,15 +298,15 @@ const props = withDefaults(defineProps<{
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, index) in props.ranges?.[0]" :key="item">
+                  <tr v-for="(item, index) in props.range" :key="index">
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item * destCurrency.value / srcCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item * destCurrency.value / srcCurrency.value * 1e5) / 1e5)  }} 
+                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item[0] * destCurrency.value / srcCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[0]) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item[0] * destCurrency.value / srcCurrency.value * 1e5) / 1e5)  }} 
                       {{ destCurrency.currency_code }}</Link>
                     </td>
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(props.ranges[1][index] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(props.ranges[1][index]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(props.ranges[1][index] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)  }} 
+                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(item[1] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[1]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item[1] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)  }} 
                       {{ srcCurrency.currency_code }}</Link>
                     </td>
                   </tr>
