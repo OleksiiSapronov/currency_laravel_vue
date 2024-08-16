@@ -5,8 +5,8 @@
 		<div class="flex-1 flex-shrink-0 w-full sm:w-auto mx-5 my-3 sm:my-0">
 			<span class="dark">
 				This site uses cookies. By continuing to browse the site, you are agreeing to our use of cookies. To find out
-				more, please click here.
-				<a href="/cookies-policy" class="underline">here</a>.
+				more, please click 
+				<a href="/cookies-policy" class="underline">Cookies Policy</a>.
 			</span>
 		</div>
 		<div class="flex-shrink-0 p-2">
