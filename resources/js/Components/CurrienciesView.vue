@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Country } from "@/types";
-import { genFlagUrl } from "@/utils";
+import { genConvertLink, genFlagUrl, genCurrencyLink } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
@@ -32,22 +32,14 @@ const otherCurrencies = computed(() => {
     <div class="flex flex-col gap-5">
       <h1 class="mt-12 font-semibold">Main curriencies</h1>
       <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2 items-center">
-        <Link
-          :href="`/currencies/pairs/${
-            country.call == '' ? '' : country.call.toLowerCase() + '-'
-          }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+        <Link :href="genCurrencyLink(country)">
+        <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
         </Link>
         <div class="currency-flag">
-          <Link
-            :href="`/currencies/pairs/${
-              country.call == '' ? '' : country.call.toLowerCase() + '-'
-            }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-            ><span
-              >{{ country.call }} {{ country.currency_name }} ({{
-                country.currency_code
-              }})</span
-            >
+          <Link :href="genCurrencyLink(country)">
+          <span>
+            {{ country.call }} {{ country.currency_name }} ({{ country.currency_code }})
+          </span>
           </Link>
         </div>
       </div>
@@ -55,21 +47,14 @@ const otherCurrencies = computed(() => {
     <div class="flex flex-col gap-5">
       <h1 class="mt-12 font-semibold">Other curriencies</h1>
       <div v-for="country in otherCurrencies" :key="country.id" class="flex gap-2">
-        <Link
-          :href="`/currencies/pairs/${
-            country.call == '' ? '' : country.call.toLowerCase() + '-'
-          }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-          ><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
+        <Link :href="genCurrencyLink(country)">
+        <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+        </Link>
         <div class="currency-flag">
-          <Link
-            :href="`/currencies/pairs/${
-              country.call == '' ? '' : country.call.toLowerCase() + '-'
-            }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}-page`"
-            ><span
-              >{{ country.call }} {{ country.currency_name }} ({{
-                country.currency_code
-              }})</span
-            >
+          <Link :href="genCurrencyLink(country)">
+          <span>
+            {{ country.call }} {{ country.currency_name }} ({{ country.currency_code }})
+          </span>
           </Link>
         </div>
       </div>

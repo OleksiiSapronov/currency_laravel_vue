@@ -923,7 +923,7 @@ class CountrySeeder extends Seeder
                 'currency_name' => 'Swiss Franc',
                 'currency_code' => 'CHF',
                 'currency_sign' => 'CHF',
-                'call' => '',
+                'call' => ' ',
                 'continent' => 'Europe',
                 'order' => 26
             ],
@@ -1695,7 +1695,7 @@ class CountrySeeder extends Seeder
                 'currency_name' => 'New Taiwan Dollar',
                 'currency_code' => 'TWD',
                 'currency_sign' => 'NT$',
-                'call' => '',
+                'call' => ' ',
                 'continent' => 'Asia'
             ],
             [
@@ -1953,7 +1953,7 @@ class CountrySeeder extends Seeder
                 'currency_name' => 'Euro',
                 'currency_code' => 'EUR',
                 'currency_sign' => '€',
-                'call' => '',
+                'call' => ' ',
                 'order' => 28,
                 'continent' => 'Europe'
             ],
@@ -1973,7 +1973,7 @@ class CountrySeeder extends Seeder
                 'currency_name' => 'Bitcoin',
                 'currency_code' => 'BTC',
                 'currency_sign' => 'Ƀ',
-                'call' => '',
+                'call' => ' ',
                 'order' => 16,
                 'continent' => 'Worldwide'
             ]

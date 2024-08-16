@@ -52,15 +52,13 @@ const props = withDefaults(defineProps<{
                 : 'flex flex-col items-center gap-1'
                 ">
                 <div v-if="index != 0">
-                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
+                  <Link :href="genConvertLink(srcCurrency, country, 100)">
                     <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
                 </div>
                 <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
                 <div v-if="index != 0" class="currency-flag">
-                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
-                      country.currency_code }}</Link>
+                  <Link :href="genConvertLink(srcCurrency, country, 100)">
+                    {{ country.currency_code }}</Link>
                 </div>
                 <div v-else>&nbsp;</div>
                 <div v-if="index == 0">1 {{ country.currency_code }} =</div>
@@ -97,14 +95,13 @@ const props = withDefaults(defineProps<{
               <div class="flex w-full justify-around mt-3 flex-wrap">
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(srcCurrency)">
                     Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
-                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
+                    <Link :href="genCurrencyLink(srcCurrency)">
+                      {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
+                    </Link>
                   </div>
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
@@ -117,17 +114,11 @@ const props = withDefaults(defineProps<{
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(destCurrency)">
                     Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(destCurrency)">
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
@@ -222,14 +213,12 @@ const props = withDefaults(defineProps<{
               <div class="flex w-full justify-around mt-3 flex-wrap">
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(srcCurrency)">
                     Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
-                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
+                    <Link :href="genCurrencyLink(srcCurrency)">
+                      {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
@@ -242,18 +231,13 @@ const props = withDefaults(defineProps<{
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(destCurrency)">
                     Check this currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
-                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
+                    <Link :href="genCurrencyLink(destCurrency)" >
+                      {{ `${destCurrency.call} ${destCurrency.currency_name}` }}
+                    </Link>
                   </div>
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
@@ -375,15 +359,15 @@ const props = withDefaults(defineProps<{
               : 'flex flex-col items-center gap-1'
               ">
               <div v-if="index != 0">
-                <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
-                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
+                <Link :href="genConvertLink(srcCurrency, country, 100)">
+                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+                </Link>
               </div>
               <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
               <div v-if="index != 0" class="currency-flag">
-                <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                  }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
-                    country.currency_code }}</Link>
+                <Link :href="genConvertLink(srcCurrency, country, 100)">
+                  {{ country.currency_code }}
+                </Link>
               </div>
               <div v-else>&nbsp;</div>
               <div v-if="index == 0">1 {{ country.currency_code }} =</div>
@@ -438,15 +422,15 @@ const props = withDefaults(defineProps<{
                 : 'flex flex-col items-center gap-1'
                 ">
                 <div v-if="index != 0">
-                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">
-                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
+                  <Link :href="genConvertLink(srcCurrency, country, 100)">
+                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+                  </Link>
                 </div>
                 <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
                 <div v-if="index != 0" class="currency-flag">
-                  <Link :href="`/currencies/pairs/100-us-dollar-usd-to-${country.call == '' ? '' : country.call.toLowerCase() + '-'
-                    }${country.currency_name.toLowerCase()}-${country.currency_code.toLowerCase()}`">{{
-                      country.currency_code }}</Link>
+                  <Link :href="genConvertLink(srcCurrency, country, 100)">
+                    {{ country.currency_code }}
+                  </Link>
                 </div>
                 <div v-else>&nbsp;</div>
                 <div v-if="index == 0">1 {{ country.currency_code }} =</div>
@@ -483,15 +467,14 @@ const props = withDefaults(defineProps<{
               <div class="flex w-full justify-around mt-3 flex-wrap">
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">
+                    <Link :href="genCurrencyLink(srcCurrency)">
                     Check this
                     currency</Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${srcCurrency.call == '' ? '' : srcCurrency.call.toLowerCase() + '-'
-                      }${srcCurrency.currency_name.toLowerCase()}-${srcCurrency.currency_code.toLowerCase()}-page`">{{
-                        `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
+                    <Link :href="genCurrencyLink(srcCurrency)">
+                      {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
+                    </Link>
                   </div>
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
@@ -504,20 +487,14 @@ const props = withDefaults(defineProps<{
                 </div>
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
-                    Check this
-                    currency</Link>
+                    <Link :href="genCurrencyLink(destCurrency)">
+                      Check this currency
+                    </Link>
                   </div>
                   <div class="currency-flag">
-                    <Link :href="`/currencies/pairs/${destCurrency.call == ''
-                      ? ''
-                      : destCurrency.call.toLowerCase() + '-'
-                      }${destCurrency.currency_name.toLowerCase()}-${destCurrency.currency_code.toLowerCase()}-page`">
-                    {{
-                      `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
+                    <Link :href="genCurrencyLink(destCurrency)">
+                      {{ `${destCurrency.call} ${destCurrency.currency_name}` }}
+                    </Link>
                   </div>
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
