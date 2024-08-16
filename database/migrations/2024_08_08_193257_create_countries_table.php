@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('country_code');
-            $table->string('country_name');
+            $table->string('country_name')->nullable();
             $table->string('currency_name');
             $table->string('currency_code');
             $table->string('currency_sign');
             $table->string('continent');
-            $table->string('call');
+            $table->string('call')->nullable();
             $table->enum('display', ['main', 'other', 'none'])->default('none');
             $table->integer('display_order')->default(1);
             $table->boolean('top_currency')->default(false);

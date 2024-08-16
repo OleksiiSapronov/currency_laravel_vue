@@ -18,8 +18,14 @@
             <div>
               <button 
                 class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50"
-                @click="handleDownload"
+                @click="() => handleDownload()"
                 >Upload From API</button>
+            </div>
+            <div>
+              <button 
+                class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50"
+                @click="() => handleDownload(true)"
+                >Upload From API before Month</button>
             </div>
           </div>
         </div>
@@ -37,8 +43,8 @@ import { Head, } from "@inertiajs/vue3";
 const fileInput = ref(null);
 const errors = ref([]);
 
-const handleDownload = () => {
-  router.get('/admin/upload-api', {
+const handleDownload = (flag = false) => {
+  router.get(`/admin/upload-api${flag?'?month=true':''}`, {
     onError: (errorResponse) => {
       errors.value = Object.values(errorResponse.errors || {});
     },

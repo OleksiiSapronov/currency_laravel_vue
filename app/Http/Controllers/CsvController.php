@@ -25,29 +25,56 @@ class CsvController extends Controller
     }
 
     public function uploadApi(Request $request) {
-        $day = date("Y-m-d");
-        // $date = new Carbon($day);
-        // $day = $date->subMonth()->format('Y-m-d');
-        $ch = curl_init('https://apilayer.net/api/historical?access_key=1b557473e8cc9b2747c6037df7a993c8&currencies=&source=GBP&format=1&date='.$day);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $json = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
-        curl_close($ch);
-        if ($curlError) {
-            // Handle cURL error
-            return response()->json(['error' => 'cURL Error: ' . $curlError], 500);
-        }
-        if ($httpCode >= 200 && $httpCode < 300) {
-            // Successful response
-            $exchangeRates = json_decode($json, true);
-            $this->parseRate($exchangeRates);
-            dd($exchangeRates);
+        if($request->get('month') != null) {
+            $day = date("Y-m-d");
+            $date = new Carbon($day);
+            for($i = 30; $i >= 0; $i --) {
+                $day = $date->subDays($i)->format('Y-m-d');
+                $ch = curl_init('https://apilayer.net/api/historical?access_key=1b557473e8cc9b2747c6037df7a993c8&currencies=&source=GBP&format=1&date='.$day);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+                $json = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlError = curl_error($ch);
+                curl_close($ch);
+                if ($curlError) {
+                    // Handle cURL error
+                    return response()->json(['error' => 'cURL Error: ' . $curlError], 500);
+                }
+                if ($httpCode >= 200 && $httpCode < 300) {
+                    // Successful response
+                    $exchangeRates = json_decode($json, true);
+                    $this->parseRate($exchangeRates);
+                } else {
+                    // Handle HTTP error
+                    return response()->json(['error' => 'HTTP Error: ' . $httpCode, 'response' => $json], $httpCode);
+                }
+            }
             return response()->json(['success' => true]);
         } else {
-            // Handle HTTP error
-            return response()->json(['error' => 'HTTP Error: ' . $httpCode, 'response' => $json], $httpCode);
+            $day = date("Y-m-d");
+            // $date = new Carbon($day);
+            // $day = $date->subMonth()->format('Y-m-d');
+            $ch = curl_init('https://apilayer.net/api/historical?access_key=1b557473e8cc9b2747c6037df7a993c8&currencies=&source=GBP&format=1&date='.$day);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $json = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+            if ($curlError) {
+                // Handle cURL error
+                return response()->json(['error' => 'cURL Error: ' . $curlError], 500);
+            }
+            if ($httpCode >= 200 && $httpCode < 300) {
+                // Successful response
+                $exchangeRates = json_decode($json, true);
+                $this->parseRate($exchangeRates);
+                return response()->json(['success' => true]);
+            } else {
+                // Handle HTTP error
+                return response()->json(['error' => 'HTTP Error: ' . $httpCode, 'response' => $json], $httpCode);
+            }
         }
     }
 
