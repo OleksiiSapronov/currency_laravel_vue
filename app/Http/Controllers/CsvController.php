@@ -29,7 +29,7 @@ class CsvController extends Controller
             $day = date("Y-m-d");
             $date = new Carbon($day);
             for($i = 30; $i >= 0; $i --) {
-                $day = $date->subDays($i)->format('Y-m-d');
+                $day = $date->subDays(1)->format('Y-m-d');
                 $ch = curl_init('https://apilayer.net/api/historical?access_key=1b557473e8cc9b2747c6037df7a993c8&currencies=&source=GBP&format=1&date='.$day);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         

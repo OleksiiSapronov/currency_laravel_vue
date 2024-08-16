@@ -65,7 +65,7 @@ class HomeController extends Controller
     }
 
     private function getCounties() {
-        // return Cache::remember('countries', $seconds = 60 * 60, function () {
+        return Cache::remember('countries', $seconds = 60 * 60, function () {
             $countries = Country::with('latestCurrency')->get();
             $arr = array();
             foreach($countries as $country) {
@@ -73,13 +73,13 @@ class HomeController extends Controller
                     $arr[] = $country;
             }
             return $arr;
-        // });
+        });
     }
 
     private function getTopCurrencies() {
-        // return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
+        return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
             return Country::with('latestCurrency')->where('top_currency', true)->orderBy('top_order')->limit(12)->get();
-        // });
+        });
     }
 
     public function index() {

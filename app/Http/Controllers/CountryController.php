@@ -58,8 +58,8 @@ class CountryController extends Controller
      */
     public function update(UpdateCountryRequest $request, Country $country)
     {
-        Cache::clear();
         $country->update($request->all());
+        Cache::clear();
     }
 
     /**
