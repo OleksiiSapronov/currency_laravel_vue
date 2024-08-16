@@ -65,9 +65,9 @@ const props = withDefaults(defineProps<{
                 <div v-else>
                   {{
                     country.currency_sign == "$"
-                      ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                       }`
-                      : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                       }${country.currency_sign}`
                   }}
                 </div>
@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<{
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
                   1 {{ srcCurrency.currency_code }} =
-                  {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                  {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                   {{ destCurrency.currency_code }}
                 </h2>
               </div>
@@ -106,7 +106,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
                     }})
@@ -124,7 +124,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
                     }})
@@ -203,7 +203,7 @@ const props = withDefaults(defineProps<{
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
                   {{ balance }} {{ srcCurrency.currency_code }} =
-                  {{ Math.round((balance * destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                  {{ Math.round((balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                   {{ destCurrency.currency_code }}
                 </h2>
               </div>
@@ -223,7 +223,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
                     }})
@@ -242,7 +242,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
                     }})
@@ -261,7 +261,7 @@ const props = withDefaults(defineProps<{
               <p>
                 You have just converted <b>{{ balance }} {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} - {{ srcCurrency.currency_name }} to {{ destCurrency.currency_name }}</b>. To
                 convert it, we have used value of 
-                <b>1 {{ srcCurrency.currency_code }} = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</b>. 
+                <b>1 {{ srcCurrency.currency_code }} = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</b>. 
                 You can convert <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</b> to any other
                 currency using the above form. Invert exchange - 
                 How much is 1 EUR to USD ? Go to USD dollar converter and calculator.
@@ -284,13 +284,13 @@ const props = withDefaults(defineProps<{
                 <tbody>
                   <tr v-for="(item, index) in props.range" :key="index">
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item[0] * destCurrency.value / srcCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[0]) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item[0] * destCurrency.value / srcCurrency.value * 1e5) / 1e5)  }} 
+                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item[0] * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[0]) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item[0] * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5)  }} 
                       {{ destCurrency.currency_code }}</Link>
                     </td>
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(item[1] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[1]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item[1] * srcCurrency.value / destCurrency.value * 1e5) / 1e5)  }} 
+                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(item[1] * srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance'] * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[1]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
+                      {{ new Intl.NumberFormat().format(Math.round(item[1] * srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance'] * 1e5) / 1e5)  }} 
                       {{ srcCurrency.currency_code }}</Link>
                     </td>
                   </tr>
@@ -315,7 +315,7 @@ const props = withDefaults(defineProps<{
                       {{ moment(item.date).format("dddd DD MMMM, YYYY") }}
                     </td>
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(destCurrency, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ balance }} {{ srcCurrency.currency_code }}</Link> = <Link :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.value / srcCurrency.value * 1e5) / 1e5))" class="text-blue-500 hover:text-gray-500">{{ Math.round(balance * destCurrency.value / srcCurrency.value * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</Link>
+                      <Link :href="genConvertLink(destCurrency, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ balance }} {{ srcCurrency.currency_code }}</Link> = <Link :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" class="text-blue-500 hover:text-gray-500">{{ Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</Link>
                     </td>
                   </tr>
                 </tbody>
@@ -330,7 +330,7 @@ const props = withDefaults(defineProps<{
                   class="w-1/2 p-2 border text-gray-500"
                   >
                   <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }})</Link> = 
-                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(Math.round(balance * country.value / srcCurrency.value * 1e5) / 1e5) }} 
+                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(Math.round(balance * country.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5) }} 
                   {{ country.currency_name }} {{ country.currency_code }}</Link>
                 </div>
               </div>
@@ -374,9 +374,9 @@ const props = withDefaults(defineProps<{
               <div v-else>
                 {{
                   country.currency_sign == "$"
-                    ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                    ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                     }`
-                    : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                    : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                     }${country.currency_sign}`
                 }}
               </div>
@@ -437,9 +437,9 @@ const props = withDefaults(defineProps<{
                 <div v-else>
                   {{
                     country.currency_sign == "$"
-                      ? `$${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                       }`
-                      : `${Math.round((country.value / srcCurrency.value) * 100) / 100
+                      : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
                       }${country.currency_sign}`
                   }}
                 </div>
@@ -457,7 +457,7 @@ const props = withDefaults(defineProps<{
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
                   1 {{ srcCurrency.currency_code }} =
-                  {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                  {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                   {{ destCurrency.currency_code }}
                 </h2>
               </div>
@@ -479,7 +479,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.value / srcCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
                     }})
@@ -499,7 +499,7 @@ const props = withDefaults(defineProps<{
                   <div>
                     1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
                       destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.value / destCurrency.value) * 1e5) / 1e5 }}
+                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
                     {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
                       srcCurrency.currency_sign
                     }})

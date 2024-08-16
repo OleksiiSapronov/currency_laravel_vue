@@ -29,7 +29,7 @@
         </th>
         <td class="p-1 border text-sm">
           <Link :href="genConvertLink(src, country)" class="text-blue-500 hover:text-gray-500">
-            1 {{ props.src?.currency_code }} = {{ Math.round(country.value / src.value * 1e5) / 1e5
+            1 {{ props.src?.currency_code }} = {{ Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} {{ country.currency_code }}
           </Link>
         </td>
@@ -65,8 +65,8 @@ const props = withDefaults(
 
 const dispCountries = computed(() => {
   if(props.group == "Worldwide")
-    return props.countries.filter((item: Country) => item.order > 10 && item.value > 0)   
+    return props.countries.filter((item: Country) => (item.top_currency == 1 || item.display == "main") && item.latest_currency['balance'] > 0)   
   else 
-    return props.countries.filter((item: Country) => item.continent === props.group && item.value > 0)
+    return props.countries.filter((item: Country) => item.continent === props.group && item.latest_currency['balance'] > 0)
 })
 </script>

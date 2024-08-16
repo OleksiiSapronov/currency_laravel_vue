@@ -35,7 +35,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.order >= 10 && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.top_currency == 1 && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -45,7 +45,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -69,7 +69,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Asia' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Asia' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -79,7 +79,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -103,7 +103,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Africa' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Africa' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -113,7 +113,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -137,7 +137,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Europe' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Europe' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -147,7 +147,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -171,7 +171,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'MiddleEastAsia' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'MiddleEastAsia' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -181,7 +181,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -205,7 +205,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'America' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'America' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -215,7 +215,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
@@ -239,7 +239,7 @@
           </th>
         </tr>
 
-        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Oceania' && item.value > 0)" :key="country.id"
+        <tr v-for="country in props.countries.filter((item: Country) => item.continent === 'Oceania' && item.latest_currency['balance'] > 0)" :key="country.id"
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
@@ -249,7 +249,7 @@
           </th>
           <td class="p-1 border text-sm">
             {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.value / src.value * 1e5) / 1e5
+            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
             }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">

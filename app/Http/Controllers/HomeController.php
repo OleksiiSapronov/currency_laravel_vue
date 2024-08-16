@@ -66,7 +66,13 @@ class HomeController extends Controller
 
     private function getCounties() {
         // return Cache::remember('countries', $seconds = 60 * 60, function () {
-            return Country::with('latestCurrency')->get();
+            $countries = Country::with('latestCurrency')->get();
+            $arr = array();
+            foreach($countries as $country) {
+                if(isset($country->latestCurrency->balance)) 
+                    $arr[] = $country;
+            }
+            return $arr;
         // });
     }
 
