@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noindex">
+        <meta name="keywords" content="Euro, dollar, currency, converter, online, converted, calculator, currency converter">
+        <meta name="robots" content="index,follow">
+        <meta property="og:title" content="Convert US Dollar (USD), Exchange Rates Today">
+        <meta name="description" content="AZconvert.com is a very useful and convenient currency converter and calculator. You can quickly check the current exchange rates from any country in the world. EUR to USD, USD to GBP, EUR to GBP or INR to USD.">
         
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
