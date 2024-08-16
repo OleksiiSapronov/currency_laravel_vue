@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
     <div class="py-6 flex">
       <!-- Main page -->
       <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1">
-        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5">
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5">
           <div>
             <!-- Title -->
             <div class="mb-3">
@@ -46,11 +46,10 @@ const props = withDefaults(defineProps<{
             </div>
 
             <!-- Convert Flags -->
-            <div class="text-gray-900 flex p-3 gap-3 justify-center">
+            <div class="text-gray-900 flex p-3 justify-center gap-3">
               <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
                 ? 'flex flex-col items-center gap-1 pr-10 text-nowrap'
-                : 'flex flex-col items-center gap-1'
-                ">
+                : 'flex flex-col items-center gap-1' + (index > 8 ? ' max-[1280px]:hidden' : (index > 6 ? ' max-[768px]:hidden' : (index > 4 ? ' max-sm:hidden' : '')))">
                 <div v-if="index != 0">
                   <Link :href="genConvertLink(srcCurrency, country, 100)">
                     <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>

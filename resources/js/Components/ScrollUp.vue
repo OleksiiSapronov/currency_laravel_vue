@@ -1,5 +1,5 @@
 <template>
-  <div ref="scrollTopButton" class="fixed w-full flex justify-end bottom-0 pb-16 pr-8 invisible">
+  <div ref="scrollTopButton" class="fixed justify-end bottom-0 pb-16 pr-8 invisible right-0">
     <button 
       @click="scrollToTop"
       class="bg-white hover:bg-indigo-500 focus:outline-none font-medium rounded-full text-sm p-4 text-center min-h-4 hover:text-white text-indigo-800 border shadow-lg hover:transition-colors">
