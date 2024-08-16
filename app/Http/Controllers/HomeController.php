@@ -78,7 +78,7 @@ class HomeController extends Controller
 
     private function getTopCurrencies() {
         // return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
-            return Country::with('latestCurrency')->where('top_currency', true)->limit(12)->get();
+            return Country::with('latestCurrency')->where('top_currency', true)->orderBy('top_order')->limit(12)->get();
         // });
     }
 
@@ -89,7 +89,7 @@ class HomeController extends Controller
         $destCurrency = null;
 
         if(count($topCountries) < 2) {
-            $srcCurrency = Country::with('latestCurrency')->where('country_code', 'RO')->first();
+            $srcCurrency = Country::with('latestCurrency')->where('country_code', 'US')->first();
             $destCurrency = Country::with('latestCurrency')->where('country_code', 'EU')->first();
         } else {
             $srcCurrency = $topCountries[0];
