@@ -25,10 +25,13 @@ const props = withDefaults(defineProps<{
   mode?: number;
   past?: [Currency];
   range?: Array<Array<number>>;
+  official?: string;
 }>(), {
   balance: 1,
-  mode: 1
+  mode: 1,
+  official: ""
 });
+
 </script>
 
 <template>
@@ -43,13 +46,12 @@ const props = withDefaults(defineProps<{
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">Convertor valutar online.</div>
-              <p>Convertor valutar (Euro, Dolar, BTC), curs valutar FX și calculator.</p>
+              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">{{ $t('MAIN_TITLE') }} </div>
+              <p>{{ $t('MAIN_DESCRIPTION') }}</p>
               <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
-                {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
-                {{ srcCurrency.currency_code }} - Current currency exchange converter page
+                {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
-              <p>Last update {{ moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }}.</p>
+              <p>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</p>
             </div>
 
             <!-- Convert Flags -->
@@ -84,9 +86,15 @@ const props = withDefaults(defineProps<{
 
             <div class="p-2 flex flex-col rounded-md border items-center">
               <div>
-                <span>What is the exchange rate of 1
-                  {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} in
-                  {{ `${destCurrency.call} ${destCurrency.currency_name}` }}?</span>
+                <span>
+                  {{ 
+                    $t('PAGE_EXCHANGE_RATE', { 
+                      amount: 1, 
+                      src: `${srcCurrency.call} ${srcCurrency.currency_name}`,
+                      dest: `${destCurrency.call} ${destCurrency.currency_name}`
+                    })
+                  }}
+                </span>
               </div>
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
@@ -102,7 +110,7 @@ const props = withDefaults(defineProps<{
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(srcCurrency)">
-                    Check this currency</Link>
+                    {{ $t('CHECK_CURRENCY') }}</Link>
                   </div>
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(srcCurrency)">
@@ -121,7 +129,8 @@ const props = withDefaults(defineProps<{
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(destCurrency)">
-                    Check this currency</Link>
+                      {{ $t('CHECK_CURRENCY') }}
+                    </Link>
                   </div>
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(destCurrency)">
@@ -165,14 +174,11 @@ const props = withDefaults(defineProps<{
 
             <div>
               <div class="border p-2">
-                {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
-                currency in the following countries: {{ srcCurrency.country_name }}
+                {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code, countries: official })}}
               </div>
               <br />
               <div class="border p-2">
-                Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
-                  (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
-                into your page:
+                {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code})}}
               </div>
               <textarea
                 class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
@@ -190,8 +196,12 @@ const props = withDefaults(defineProps<{
           <div>
             <div class="mb-3">
               <h1 class="fs-22 font-bold">
-                How much is {{ balance }} {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
-                ({{ srcCurrency.currency_code }}) in {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} {{ `${destCurrency.call} ${destCurrency.currency_name}` }} {{ srcCurrency.currency_name }}?
+                {{ $t('CONVERT_TITLE', {
+                  amount: balance,
+                  src_name: `${srcCurrency.call} ${srcCurrency.currency_name}`,
+                  src_cuname: srcCurrency.currency_name,
+                  dest_name: `${destCurrency.call} ${destCurrency.currency_name}`
+                })}}
               </h1>
             </div>
 
@@ -210,7 +220,8 @@ const props = withDefaults(defineProps<{
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(srcCurrency)">
-                    Check this currency</Link>
+                    {{ $t('CHECK_CURRENCY') }}
+                  </Link>
                   </div>
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(srcCurrency)">
@@ -228,7 +239,8 @@ const props = withDefaults(defineProps<{
                 <div class="flex flex-col items-center">
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(destCurrency)">
-                    Check this currency</Link>
+                      {{ $t('CHECK_CURRENCY') }}
+                    </Link>
                   </div>
                   <div class="currency-flag">
                     <Link :href="genCurrencyLink(destCurrency)" >
@@ -248,32 +260,37 @@ const props = withDefaults(defineProps<{
 
               <hr class="w-full mt-3 mb-2" />
 
-              <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}.</p>
+              <p>
+                {{ $t('UPDATED_TIME', { date: new Date(srcCurrency.latest_currency['date']) }) }}
+              </p>
             </div>
 
             <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="balance"/>
 
             <div>
-              <p>
-                You have just converted <b>{{ balance }} {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} - {{ srcCurrency.currency_name }} to {{ destCurrency.currency_name }}</b>. To
-                convert it, we have used value of 
-                <b>1 {{ srcCurrency.currency_code }} = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</b>. 
-                You can convert <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</b> to any other
-                currency using the above form. Invert exchange - 
-                How much is 1 EUR to USD ? Go to USD dollar converter and calculator.
-              </p>
+              <p v-html="$t('CONVERT_TEXT', {
+                amount: balance,
+                src_name: `${srcCurrency.call} ${srcCurrency.currency_name}`,
+                src_code: srcCurrency.currency_code,
+                src_curname: srcCurrency.currency_name,
+                dest_code: destCurrency.currency_code,
+                dest_curname: destCurrency.currency_name,
+                value: Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5
+              })" />
             </div>
 
             <div>
-              <div class="text-lg font-bold mt-6 mb-1">Currency converter. Check the current exchange rate of {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }}</div>
+              <div class="text-lg font-bold mt-6 mb-1">
+                {{ $t('CONVERT_TABLE_NAME', { src_code: srcCurrency.currency_code, dest_code: destCurrency.currency_code }) }}
+              </div>
               <table class="w-full text-left rtl:text-right text-gray-500">
                 <thead class="text-gray-700 bg-gray-50 font-bold">
                   <tr>
                     <th scope="col" class="px-1 py-2 border">
-                      {{ srcCurrency.currency_code }} to {{ destCurrency.currency_code }} ({{ srcCurrency.call }} {{ srcCurrency.currency_name }})
+                      {{ srcCurrency.currency_code }} {{ $t('TO') }} {{ destCurrency.currency_code }} ({{ srcCurrency.call }} {{ srcCurrency.currency_name }})
                     </th>
                     <th scope="col" class="px-1 py-2 border">
-                      {{ destCurrency.currency_code }} to {{ srcCurrency.currency_code }} ({{ destCurrency.call }} {{ destCurrency.currency_name }})
+                      {{ destCurrency.currency_code }} {{ $t('TO') }} {{ srcCurrency.currency_code }} ({{ destCurrency.call }} {{ destCurrency.currency_name }})
                     </th>
                   </tr>
                 </thead>
@@ -293,7 +310,9 @@ const props = withDefaults(defineProps<{
                 </tbody>
               </table>
 
-              <div class="text-lg font-bold mt-6 mb-1">Currency exchange history from {{ moment(Date.now()).format("dddd DD MMMM, YYYY") }} to {{ moment(Date.now() - 60 * 60 * 24 * 30).format("dddd DD MMMM, YYYY") }}</div>
+              <div class="text-lg font-bold mt-6 mb-1">
+                {{ $t('CONVERT_HISTORY', { from: moment(Date.now()).format("dddd DD MMMM, YYYY"), to: moment(Date.now() - 60 * 60 * 24 * 30).format("dddd DD MMMM, YYYY") })}}
+              </div>
               <table class="w-full text-left rtl:text-right text-gray-500">
                 <thead class="text-gray-700 bg-gray-50 font-bold">
                   <tr>
@@ -314,11 +333,19 @@ const props = withDefaults(defineProps<{
                       <Link :href="genConvertLink(destCurrency, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ balance }} {{ srcCurrency.currency_code }}</Link> = <Link :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" class="text-blue-500 hover:text-gray-500">{{ Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</Link>
                     </td>
                   </tr>
+                  <tr>
+                    <td class="p-1 border" colspan="2">
+                      <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{ $t('GOTO_CALCULATOR') }}
+                      </Link>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
 
               <!-- Other currencies -->
-              <div class="text-lg font-bold mt-6 mb-1">{{ balance }} {{ srcCurrency.currency_code }} in other currencies</div>
+              <div class="text-lg font-bold mt-6 mb-1">
+                {{ $t('CONVERT_OTHER_CURRENCIES', { amount: balance, code: srcCurrency.currency_code })}}
+              </div>
               <div class="flex w-full flex-wrap">
                 <div 
                   v-for="country in props.countries.filter((item: Country) => item.order > 10)" 
@@ -343,12 +370,14 @@ const props = withDefaults(defineProps<{
         <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-col">
           <div class="mb-3">
             <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
-              {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
-              ({{ srcCurrency.currency_code }}) Currency Exchange Rate calculator
+              {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
             </div>
-            <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}.</p>
+            <p>
+              {{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}
+            </p>
           </div>
 
+          <!-- Flags -->
           <div class="text-gray-900 flex p-3 gap-3 justify-between flex-wrap">
             <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
               ? 'flex flex-col items-center gap-1 pr-10'

@@ -3,16 +3,16 @@
     <thead class="text-gray-700 bg-gray-50 font-bold">
       <tr>
         <th scope="col" class="px-1 py-2 border">
-          Currency
+          {{ $t('CURRENCY') }}
         </th>
         <th scope="col" class="px-1 py-2 border">
-          Current FX rate
+          {{ $t('CURRENT_FX_RATE') }}
         </th>
         <th scope="col" class="px-1 py-2 border text-nowrap">
-          FX calculator
+          {{ $t('FX_CALCULATOR' )}}
         </th>
         <th scope="col" class="px-1 py-2 border">
-          Convert
+          {{ $t('CONVERT') }}
         </th>
       </tr>
     </thead>
@@ -35,12 +35,12 @@
         </td>
         <td class="p-1 border text-sm">
           <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            {{ country.currency_code }} calculator
+            {{ $t('CURRENCY_CALCULATOR', { code: country.currency_code })}}
           </Link>
         </td>
         <td class="p-1 border text-sm">
           <Link :href="genConvertLink(src, country, 10)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('TABLE_CONVERT_CURRENCY', { src: src.currency_code, dest: country.currency_code })}}
           </Link>
         </td>
       </tr>

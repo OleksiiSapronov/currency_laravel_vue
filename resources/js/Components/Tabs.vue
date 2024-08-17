@@ -11,10 +11,14 @@
       </li>
     </ul>
     <div class="p-2">
-      <b>Currency exchange rates table of the {{ src.call }} {{ src.currency_name }} ({{ src.currency_code }}), updated at {{ src.latest_currency['date'] }}</b>
+      <b>{{ $t('TAB_TITLE', {
+          src: `${src.call} ${src.currency_name}`,
+          code: src.currency_code,
+          date: src.latest_currency['date'],
+        }) }}
+      </b>
       <br />
-      On this page you will find list of the mutual conversions of the <b>{{ src.call }} {{ src.currency_name }} ({{ src.call }} {{ src.currency_name }}) currency and other
-        major world currencies.</b>
+      <p v-html="$t('TAB_SUBTITLE', { name: `${src.call} ${src.currency_name}` })" />
     </div>
   </div>
   <div class="tabs-content rounded-md">
@@ -34,6 +38,9 @@
 import { ref } from 'vue'
 import { Country } from '@/types';
 import CurrencyTable from './CurrencyTable.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -45,13 +52,13 @@ const props = withDefaults(
 );
 
 const tabLabels = [
-  { name: "Main currencies", id: 1, label: 'Worldwide' },
-  { name: "North, Central and South America", id: 2, label: 'America' },
-  { name: "Europe", id: 3, label: 'Europe'},
-  { name: "Middle East", id: 4, label: 'MiddleEastAsia' },
-  { name: "Asia", id: 5, label: 'Asia' },
-  { name: "Oceania & Pacific", id: 6, label: 'Oceania' },
-  { name: "Africa", id: 7, label: 'Africa' },
+  { name: t("TAB_MAIN_CURRENCIES"), id: 1, label: 'Worldwide' },
+  { name: t("TAB_AMERICA"), id: 2, label: 'America' },
+  { name: t("TAB_EUROPE"), id: 3, label: 'Europe'},
+  { name: t("TAB_MIDDLE_EAST_ASIA"), id: 4, label: 'MiddleEastAsia' },
+  { name: t("TAB_ASIA"), id: 5, label: 'Asia' },
+  { name: t('TAB_OCEANIA'), id: 6, label: 'Oceania' },
+  { name: t('TAB_ASIA'), id: 7, label: 'Africa' },
 ];
 
 const openTab = ref(1);

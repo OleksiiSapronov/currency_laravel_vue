@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
+    private function getOfficialCountries($code) {
+        $res = "";
+        $countries = Country::where('currency_code', $code)->get();
+        foreach ($countries as $country) {
+            if($res != "") $res .= ",";
+            $res .= $country['country_name'];
+        }
+        return $res;
+    }
+
     private function getRange($code, $code2) {
         $range = array(1, 2, 5, 10, 50, 100, 500, 1000, 5000, 10000);
         $range2 = array();
@@ -96,12 +106,15 @@ class HomeController extends Controller
             $destCurrency = $topCountries[1];
         }
 
+        $officalNames = $this->getOfficialCountries($srcCurrency['currency_code']);
+
         return Inertia::render('Home', [
             'countries' => $countries,
             'topCountries' => $topCountries,
             'srcCurrency' => $srcCurrency,
             'destCurrency' => $destCurrency,
-            'mode' => 1
+            'mode' => 1,
+            'official' => $officalNames
         ]);
     }
 

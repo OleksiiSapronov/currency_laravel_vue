@@ -6,7 +6,7 @@
       id="balance"
       autocomplete="balance"
       class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
-      placeholder="Quantity"
+      :placeholder="$t('CONVERT_QUANTITY')"
       v-model="quantity"
     />
 
@@ -63,7 +63,7 @@
       class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
       @click="handleRedirect"
     >
-      CONVERT
+      {{ $t('CONVERT').toUpperCase() }}
     </button>
   </div>
   <div class="flex gap-3 mb-3 flex-wrap" v-else>
@@ -73,7 +73,7 @@
       id="balance"
       autocomplete="balance"
       class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
-      placeholder="Quantity"
+      :placeholder="$t('CONVERT_QUANTITY')"
       v-model="quantity"
     />
 
@@ -106,7 +106,7 @@
       class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
       @click="handleRedirectCalculator"
     >
-      CONVERT
+      {{ $t('CONVERT').toUpperCase() }}
     </button>
   </div>
 </template>

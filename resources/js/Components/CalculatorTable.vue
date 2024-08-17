@@ -1,37 +1,39 @@
 <template>
   <div>
     <div class="border p-2">
-      <div class="text-lg font-bold">Currency Exchange Rate calculator  {{ src.call }} {{ src.currency_name }} - {{ src.currency_name }} to all worldwide currencies.</div>
-      <div>
-        On the calculator page, you can find conversion of <b>{{ balance }} {{ src.call }} {{ src.currency_name }}</b> to all worldwide currencies. 
-        Please find latest calculation rates between them, updated at {{ src.latest_currency['date'] }}. 
-        If you want to calculate  {{ src.call }} {{ src.currency_name }} to other currencies, go to converter page  {{ src.call }} {{ src.currency_name }} , or currency page {{ src.call }} {{ src.currency_name }}.
+      <div class="text-lg font-bold">
+        {{ $t('CALCULATOR_TABLE_TITLE', { name: `${src.call} ${src.currency_name}`, code: src.currency_name }) }}
       </div>
+      <p v-html="$t('CALCULATOR_TABLE_DESCRIPTION', {
+        amount: balance,
+        date: src.latest_currency['date'],
+        name: `${src.call} ${src.currency_name}`,
+      })" />
     </div>  
     <table class="w-full text-left rtl:text-right text-gray-500">
       <thead class="text-gray-700 bg-gray-50 font-bold">
         <tr>
           <th scope="col" class="px-1 py-2 border">
-            Currency
+            {{ $t('CURRENCY') }}
           </th>
           <th scope="col" class="px-1 py-2 border">
-            Current FX rate
+            {{ $t('CURRENT_FX_RATE') }}
           </th>
           <th scope="col" class="px-1 py-2 border text-nowrap">
-            Last update
+            {{ $t('LAST_UPDATE') }}
           </th>
           <th scope="col" class="px-1 py-2 border">
-            Convert
+            {{ $t('CONVERT') }}
           </th>
           <th scope="col" class="px-1 py-2 border text-nowrap">
-            FX calculator
+            {{ $t('FX_CALCULATOR') }}
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Conversion table for major world currencies
+            {{ $t('PAGE_CONVERT_MAJOR_CURRENCIES') }}
           </th>
         </tr>
 
@@ -53,19 +55,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Asia
+            {{ $t('TAB_ASIA') }}
           </th>
         </tr>
 
@@ -87,19 +89,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+              {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Africa
+            {{ $t('TAB_AFRICA') }}
           </th>
         </tr>
 
@@ -121,19 +123,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Europe
+            {{ $t('TAB_EUROPE') }}
           </th>
         </tr>
 
@@ -155,19 +157,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Middle East
+            {{ $t('TAB_MIDDLE_EAST_ASIA') }}
           </th>
         </tr>
 
@@ -189,19 +191,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            North, Central and South America
+            {{ $t('TAB_AMERICA') }}
           </th>
         </tr>
 
@@ -223,19 +225,19 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
 
         <tr>
           <th colspan="5" class="border p-2 text-md font-bold">
-            Oceania & Pacific
+            {{ $t('TAB_OCEANIA') }}
           </th>
         </tr>
 
@@ -257,12 +259,12 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genConvertLink(src, country, balance)" class="text-blue-500 hover:text-gray-500">
-            Convert {{ src.currency_code }} to {{ country.currency_code }}
+            {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            FX calculator {{ country.currency_code }} 
+            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>

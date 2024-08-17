@@ -30,7 +30,7 @@ const otherCurrencies = computed(() => {
 <template>
   <div class="flex flex-col whitespace-nowrap min-w-64">
     <div class="flex flex-col gap-5">
-      <h1 class="mt-12 font-semibold">Main curriencies</h1>
+      <h1 class="mt-12 font-semibold">{{ $t('MAIN_COUNTRIES') }}</h1>
       <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2 items-center">
         <Link :href="genCurrencyLink(country)">
         <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
@@ -45,7 +45,7 @@ const otherCurrencies = computed(() => {
       </div>
     </div>
     <div class="flex flex-col gap-5">
-      <h1 class="mt-12 font-semibold">Other curriencies</h1>
+      <h1 class="mt-12 font-semibold">{{ $t('OTHER_COUNTRIES') }}</h1>
       <div v-for="country in otherCurrencies" :key="country.id" class="flex gap-2">
         <Link :href="genCurrencyLink(country)">
         <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
