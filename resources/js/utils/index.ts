@@ -11,7 +11,7 @@ export const SERVER_URL = "https://phpstack-1255990-4653753.cloudwaysapps.com";
 export const genCurrencyLink = (src: Country): string => {
   let out = "";
   if (src.call != "" && src.call != " ") out += src.call + "-";
-  out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-page';
+  out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-page.html';
   return "/currencies/pairs/" + out.toLowerCase();
 }
 
@@ -31,7 +31,7 @@ export const genConvertLink = (src: Country, dest: Country, value: number = 1): 
     out += dest.call + "-";
   }
   out += dest.currency_name.replace(' ', '-') + '-' + dest.currency_code;
-  return "/currencies/pairs/" + out.toLowerCase();
+  return "/currencies/pairs/" + out.toLowerCase() + ".html";
 }
 
 /**
@@ -45,7 +45,7 @@ export const genCalculatorLink = (country: Country, amount: number = 0): string 
   out += country.currency_name.replace(' ', '-');
   out += '-' + country.currency_code;
   out += '-calculator';
-  return "/currencies/pairs/" + out.toLowerCase();
+  return "/currencies/pairs/" + out.toLowerCase() + ".html";
 }
 
 export const genFlagUrl = (code: string): string => {

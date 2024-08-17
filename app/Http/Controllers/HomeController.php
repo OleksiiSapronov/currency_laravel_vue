@@ -122,7 +122,7 @@ class HomeController extends Controller
         $topCountries = $this->getTopCurrencies();
         $countries = $this->getCounties();
         
-        if(preg_match('/([a-z-]+)-page/i', $value, $matches)) {
+        if(preg_match('/([a-z-]+)-page.html/i', $value, $matches)) {
             $data = explode('-', $matches[1]);
             $srcCountry = Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
@@ -138,7 +138,7 @@ class HomeController extends Controller
                 'destCurrency' => $destCurrency,
                 'mode' => 3
             ]);
-        } else if(preg_match('/([a-z-0-9.]+)-calculator/i', $value, $matches)) {
+        } else if(preg_match('/([a-z-0-9.]+)-calculator.html/i', $value, $matches)) {
             $data = explode('-', $matches[1]);
             $srcCountry = Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
@@ -154,7 +154,7 @@ class HomeController extends Controller
                 'mode' => 4,
                 'balance' => $balance == 0 ? 100 : $balance
             ]);
-        } else if(preg_match('/([0-9.]+)-([a-z-]+)-to-([a-z-]+)/i', $value, $matches)) {
+        } else if(preg_match('/([0-9.]+)-([a-z-]+)-to-([a-z-]+).html/i', $value, $matches)) {
             $amount = floatval($matches[1]);
             $data = explode('-', $matches[2]);
             $srcCountry = Country::with('currencies')->with('latestCurrency')
