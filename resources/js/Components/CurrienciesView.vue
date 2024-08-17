@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Country } from "@/types";
-import { genConvertLink, genFlagUrl, genCurrencyLink } from "@/utils";
+import { genFlagUrl, genCurrencyLink } from "@/utils";
 
 const props = withDefaults(
   defineProps<{

@@ -39,10 +39,10 @@ const props = withDefaults(defineProps<{
   <Head title="Home" />
 
   <MainLayout>
-    <div class="py-6 flex">
+    <div class="py-6">
       <!-- Main page -->
       <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1">
-        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5">
+        <div class="flex bg-white shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5 max-[1080px]:flex-wrap">
           <div>
             <!-- Title -->
             <div class="mb-3">
@@ -184,7 +184,7 @@ const props = withDefaults(defineProps<{
                 class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
           </div>
-          <div class="lg:block md:hidden sm:hidden hidden">
+          <div class="">
             <CurrienciesView :countries="countries" />
           </div>
         </div>
@@ -192,7 +192,7 @@ const props = withDefaults(defineProps<{
 
       <!-- Convert src to dest -->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="mode == 2">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6 flex-wrap">
           <div>
             <div class="mb-3">
               <h1 class="fs-22 font-bold">
@@ -432,7 +432,7 @@ const props = withDefaults(defineProps<{
       </div>
 
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
-        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5">
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-wrap">
           <div>
             <div class="mb-3">
               <h1 class="fs-22 font-bold">
@@ -570,7 +570,7 @@ const props = withDefaults(defineProps<{
                 class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
           </div>
-          <div class="lg:block md:hidden sm:hidden hidden">
+          <div>
             <CurrienciesView :countries="countries" />
           </div>
         </div>

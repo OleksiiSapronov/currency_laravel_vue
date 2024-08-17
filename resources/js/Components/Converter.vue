@@ -61,6 +61,14 @@
     <button
       type="button"
       class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
+      @click="handleSwitch"
+    >
+      {{ $t('SWITCH').toUpperCase() }}
+    </button>
+
+    <button
+      type="button"
+      class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
       @click="handleRedirect"
     >
       {{ $t('CONVERT').toUpperCase() }}
@@ -156,5 +164,11 @@ const handleRedirect = (): void => {
 
 const handleRedirectCalculator = (): void => {
   router.visit(genCalculatorLink(countriesTable[destValue.value], quantity.value));
+}
+
+const handleSwitch = (): void => {
+  const temp = destValue.value;
+  destValue.value = srcValue.value;
+  srcValue.value = temp;
 }
 </script>
