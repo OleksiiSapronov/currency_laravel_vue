@@ -29,8 +29,7 @@
         </th>
         <td class="p-1 border text-sm">
           <Link :href="genConvertLink(src, country)" class="text-blue-500 hover:text-gray-500">
-            1 {{ props.src?.currency_code }} = {{ Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} {{ country.currency_code }}
+            1 {{ props.src?.currency_code }} = {{ disValue(src, country) }} {{ country.currency_code }}
           </Link>
         </td>
         <td class="p-1 border text-sm">
@@ -51,7 +50,7 @@
 <script setup lang="ts">
 import { Country } from "@/types";
 import { Link } from "@inertiajs/vue3";
-import { genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";
+import { disValue, genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";
 import { computed } from "vue";
 
 const props = withDefaults(

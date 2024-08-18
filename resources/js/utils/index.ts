@@ -12,7 +12,7 @@ export const genCurrencyLink = (src: Country): string => {
   let out = "";
   if (src.call != "" && src.call != " ") out += src.call + "-";
   out += src.currency_name.replace(' ', '-') + '-' + src.currency_code + '-page.html';
-  return "/currencies/pairs/" + out.toLowerCase();
+  return "/currencies/pairs/" + out.replace(' ', '-').toLowerCase();
 }
 
 /**
@@ -21,7 +21,7 @@ export const genCurrencyLink = (src: Country): string => {
  * @param value Amount of currency
  * @output 1-romanian-leu-ron-to-bangladeshi-taka-bdt
  */
-export const genConvertLink = (src: Country, dest: Country, value: number = 1): string => {
+export const genConvertLink = (src: Country, dest: Country, value: number | string = 1): string => {
   let out = `${value}-`;
   if (src.call != "" && src.call != " ") {
     out += src.call + "-";
@@ -31,7 +31,7 @@ export const genConvertLink = (src: Country, dest: Country, value: number = 1): 
     out += dest.call + "-";
   }
   out += dest.currency_name.replace(' ', '-') + '-' + dest.currency_code;
-  return "/currencies/pairs/" + out.toLowerCase() + ".html";
+  return "/currencies/pairs/" + out.replace(' ', '-').toLowerCase() + ".html";
 }
 
 /**
@@ -45,7 +45,7 @@ export const genCalculatorLink = (country: Country, amount: number = 0): string 
   out += country.currency_name.replace(' ', '-');
   out += '-' + country.currency_code;
   out += '-calculator';
-  return "/currencies/pairs/" + out.toLowerCase() + ".html";
+  return "/currencies/pairs/" + out.replace(' ', '-').toLowerCase() + ".html";
 }
 
 export const genFlagUrl = (code: string): string => {
@@ -55,4 +55,22 @@ export const genFlagUrl = (code: string): string => {
 
 export const genCurrencyFullName = (country: Country): string => {
   return `${country.call} ${country.currency_name} ${country.currency_code}`;
+}
+
+export const disSingleValue = (value: number): string => {
+  return `${new Intl.NumberFormat().format(value)}`;
+}
+
+export const disValue = (src: Country, dest: Country, amount: number = 1, show: boolean = false): string => {
+  let divider = 1e5;
+  if(dest.country_code == "WW") divider = 1e7;
+  let value = Math.round(amount * dest.latest_currency.balance * divider / src.latest_currency.balance) / divider;
+  if(src.country_code == "WW") {
+    value = Math.round(value);
+    return `${new Intl.NumberFormat().format(value)}`;
+  }
+  if(dest.country_code == "WW") return `${value}`;
+  if(!show) return `${new Intl.NumberFormat().format(value)}`;
+  if(dest.currency_sign == '$') return `$${new Intl.NumberFormat().format(value)}`;
+  return `${new Intl.NumberFormat().format(value)}${dest.currency_sign}`;
 }

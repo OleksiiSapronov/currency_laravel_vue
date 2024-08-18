@@ -9,6 +9,11 @@ img {
     /* height: 24px; */
 }
 
+.img-btc {
+    height: 24px;
+    aspect-ratio: '';
+ }
+
 .fs-22 {
     font-size: 1.5rem;
 }

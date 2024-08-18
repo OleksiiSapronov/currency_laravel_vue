@@ -5,7 +5,7 @@
         {{ $t('CALCULATOR_TABLE_TITLE', { name: `${src.call} ${src.currency_name}`, code: src.currency_name }) }}
       </div>
       <p v-html="$t('CALCULATOR_TABLE_DESCRIPTION', {
-        amount: balance,
+        amount: disSingleValue(balance),
         date: src.latest_currency['date'],
         name: `${src.call} ${src.currency_name}`,
       })" />
@@ -41,14 +41,17 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
-            {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
+              <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+              {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -60,7 +63,7 @@
           </td>
           <td class="p-1 border text-sm">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
-            {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
+              {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
           </td>
         </tr>
@@ -80,9 +83,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -114,9 +120,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -148,9 +157,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -182,9 +194,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -216,9 +231,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -250,9 +268,12 @@
             </Link>
           </th>
           <td class="p-1 border text-sm">
-            {{ props.balance }} <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
-            {{ props.src?.currency_code }}</Link> = {{ props.balance * Math.round(country.latest_currency['balance'] / src.latest_currency['balance'] * 1e5) / 1e5
-            }} <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
+            {{ disSingleValue(props.balance) }} 
+            <Link :href="genCurrencyLink(src)" class="text-blue-500 hover:text-gray-500">
+              {{ props.src?.currency_code }}
+            </Link> = 
+            {{ disValue(src, country) }}
+            <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
           <td class="p-1 border text-sm">
             {{ country.latest_currency['date'] }}
@@ -278,7 +299,7 @@
 import { computed } from 'vue';
 import { Country } from "@/types";
 import { Link } from "@inertiajs/vue3";
-import { genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";
+import { disSingleValue, disValue, genCalculatorLink, genConvertLink, genCurrencyLink, genFlagUrl } from "@/utils";
 
 const props = withDefaults(
   defineProps<{

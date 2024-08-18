@@ -11,7 +11,9 @@ import {
   genCurrencyFullName, 
   SERVER_URL, 
   genCalculatorLink, 
-  genConvertLink 
+  genConvertLink, 
+  disValue,
+  disSingleValue
 } from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
 import moment from "moment";
@@ -41,66 +43,60 @@ const props = withDefaults(defineProps<{
   <MainLayout>
     <div class="py-6">
       <!-- Main page -->
-      <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1">
+      <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1 || props.mode == 3">
         <div class="flex bg-white shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5 max-[1080px]:flex-wrap">
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">{{ $t('MAIN_TITLE') }} </div>
-              <p>{{ $t('MAIN_DESCRIPTION') }}</p>
+              <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
+              <p v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</p>
               <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
               <p>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</p>
             </div>
 
-            <!-- Convert Flags -->
+            <!-- Display Main currencies -->
             <div class="text-gray-900 flex p-3 justify-center gap-3">
               <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
                 ? 'flex flex-col items-center gap-1 pr-10 text-nowrap'
                 : 'flex flex-col items-center gap-1' + (index > 8 ? ' max-[1280px]:hidden' : (index > 6 ? ' max-[768px]:hidden' : (index > 4 ? ' max-sm:hidden' : '')))">
                 <div v-if="index != 0">
                   <Link :href="genConvertLink(srcCurrency, country, 100)">
-                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></Link>
+                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name"/>
+                  </Link>
                 </div>
-                <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
+                <div v-else>
+                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" :class="country.country_code == 'WW' ? 'img-btc': ''" />
+                </div>
                 <div v-if="index != 0" class="currency-flag">
                   <Link :href="genConvertLink(srcCurrency, country, 100)">
                     {{ country.currency_code }}</Link>
                 </div>
                 <div v-else>&nbsp;</div>
-                <div v-if="index == 0">1 {{ country.currency_code }} =</div>
+                <div v-if="index == 0">{{ disSingleValue(balance) }} {{ country.currency_code }} =</div>
                 <div v-else>
-                  {{
-                    country.currency_sign == "$"
-                      ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                      }`
-                      : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                      }${country.currency_sign}`
-                  }}
+                  {{ disValue(srcCurrency, country, 1, true) }}
                 </div>
               </div>
             </div>
 
+            <!-- Convert function -->
             <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
 
             <div class="p-2 flex flex-col rounded-md border items-center">
               <div>
-                <span>
-                  {{ 
-                    $t('PAGE_EXCHANGE_RATE', { 
-                      amount: 1, 
-                      src: `${srcCurrency.call} ${srcCurrency.currency_name}`,
-                      dest: `${destCurrency.call} ${destCurrency.currency_name}`
-                    })
-                  }}
-                </span>
+                {{ 
+                  $t('PAGE_EXCHANGE_RATE', { 
+                    amount: 1, 
+                    src: `${srcCurrency.call} ${srcCurrency.currency_name}`,
+                    dest: `${destCurrency.call} ${destCurrency.currency_name}`
+                  })
+                }}
               </div>
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
-                  1 {{ srcCurrency.currency_code }} =
-                  {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                  {{ destCurrency.currency_code }}
+                  {{ disSingleValue(balance) }} {{ srcCurrency.currency_code }} = {{ disValue(srcCurrency, destCurrency) }} {{ destCurrency.currency_code }}
                 </h2>
               </div>
 
@@ -118,12 +114,9 @@ const props = withDefaults(defineProps<{
                     </Link>
                   </div>
                   <div>
-                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }})
+                    {{ disSingleValue(balance) }} {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }}) = 
+                    {{ disValue(srcCurrency, destCurrency) }}
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }})
                   </div>
                 </div>
                 <div class="flex flex-col items-center">
@@ -137,21 +130,19 @@ const props = withDefaults(defineProps<{
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
-                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }})
+                    {{ disSingleValue(balance) }} {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }}) = 
+                    {{ disValue(destCurrency, srcCurrency) }}
+                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }})
                   </div>
                 </div>
               </div>
 
               <hr class="w-full mt-4 mb-2 border" />
 
+              <!-- Tip box -->
               <div>
                 <p v-html="$t('PAGE_CONTENT', {
-                  amount: 1,
+                  amount: disSingleValue(balance),
                   src_cuname: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                   src_code: srcCurrency.currency_code,
                   dest_cuname: `${ srcCurrency.call } ${ srcCurrency.currency_name }`,
@@ -160,18 +151,19 @@ const props = withDefaults(defineProps<{
                   link1: genCalculatorLink(srcCurrency),
                   link2: genCalculatorLink(destCurrency)
                 })"></p>
-                
-                <br />
-                <p>
+                <br v-if="props.mode == 1" />
+                <p v-if="props.mode == 1">
                   {{ $t('ABOUT_SITE') }}
                 </p>
               </div>
             </div>
-
+            
+            <!-- Countries tab section -->
             <div>
               <Tabs :countries="countries" :src="srcCurrency" />
             </div>
 
+            <!-- Link section -->
             <div>
               <div class="border p-2">
                 {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code, countries: official })}}
@@ -180,24 +172,26 @@ const props = withDefaults(defineProps<{
               <div class="border p-2">
                 {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code})}}
               </div>
-              <textarea
-                class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
+              <textarea class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
           </div>
-          <div class="">
+
+          <!-- Display country categories -->
+          <div>
             <CurrienciesView :countries="countries" />
           </div>
         </div>
       </div>
 
-      <!-- Convert src to dest -->
+      <!-- Convert src to dest page -->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="mode == 2">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6 flex-wrap">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6 max-[1080px]:flex-wrap">
           <div>
+            <!-- Page title -->
             <div class="mb-3">
               <h1 class="fs-22 font-bold">
                 {{ $t('CONVERT_TITLE', {
-                  amount: balance,
+                  amount: disSingleValue(balance),
                   src_name: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                   src_cuname: srcCurrency.currency_name,
                   dest_name: `${destCurrency.call} ${destCurrency.currency_name}`
@@ -208,8 +202,8 @@ const props = withDefaults(defineProps<{
             <div class="p-2 flex flex-col rounded-md border items-center mb-3">
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
-                  {{ balance }} {{ srcCurrency.currency_code }} =
-                  {{ Math.round((balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
+                  {{ disSingleValue(balance) }} {{ srcCurrency.currency_code }} =
+                  {{ disValue(srcCurrency, destCurrency, balance) }}
                   {{ destCurrency.currency_code }}
                 </h2>
               </div>
@@ -228,12 +222,9 @@ const props = withDefaults(defineProps<{
                       {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
-                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }})
+                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }}) = 
+                    {{ disValue(srcCurrency, destCurrency) }}
+                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }})
                   </div>
                 </div>
                 <div class="flex flex-col items-center">
@@ -248,12 +239,9 @@ const props = withDefaults(defineProps<{
                     </Link>
                   </div>
                   <div>
-                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }})
+                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }}) = 
+                    {{ disValue(destCurrency, srcCurrency) }}
+                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }})
                   </div>
                 </div>
               </div>
@@ -261,7 +249,7 @@ const props = withDefaults(defineProps<{
               <hr class="w-full mt-3 mb-2" />
 
               <p>
-                {{ $t('UPDATED_TIME', { date: new Date(srcCurrency.latest_currency['date']) }) }}
+                {{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}
               </p>
             </div>
 
@@ -269,13 +257,13 @@ const props = withDefaults(defineProps<{
 
             <div>
               <p v-html="$t('CONVERT_TEXT', {
-                amount: balance,
+                amount: disSingleValue(balance),
                 src_name: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                 src_code: srcCurrency.currency_code,
                 src_curname: srcCurrency.currency_name,
                 dest_code: destCurrency.currency_code,
                 dest_curname: destCurrency.currency_name,
-                value: Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5
+                value: disValue(srcCurrency, destCurrency)
               })" />
             </div>
 
@@ -297,14 +285,22 @@ const props = withDefaults(defineProps<{
                 <tbody>
                   <tr v-for="(item, index) in props.range" :key="index">
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(destCurrency, srcCurrency, Math.round(item[0] * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[0]) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item[0] * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5)  }} 
-                      {{ destCurrency.currency_code }}</Link>
+                      <Link 
+                        :href="genConvertLink(destCurrency, srcCurrency, Math.round(item[0] * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5)" 
+                        class="text-blue-500 hover:text-gray-500">
+                        {{ disSingleValue(item[0]) }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) =
+                        {{ disValue(srcCurrency, destCurrency, item[0]) }} 
+                        {{ destCurrency.currency_code }}
+                      </Link>
                     </td>
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(srcCurrency, destCurrency, Math.round(item[1] * srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance'] * 1e5) / 1e5)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(item[1]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
-                      {{ new Intl.NumberFormat().format(Math.round(item[1] * srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance'] * 1e5) / 1e5)  }} 
-                      {{ srcCurrency.currency_code }}</Link>
+                      <Link 
+                        :href="genConvertLink(srcCurrency, destCurrency, Math.round(item[1] * srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance'] * 1e5) / 1e5)" 
+                        class="text-blue-500 hover:text-gray-500">
+                        {{ disSingleValue(item[1]) }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }}) = 
+                        {{ disValue(destCurrency, srcCurrency, item[1]) }} 
+                        {{ srcCurrency.currency_code }}
+                      </Link>
                     </td>
                   </tr>
                 </tbody>
@@ -330,7 +326,17 @@ const props = withDefaults(defineProps<{
                       {{ moment(item.date).format("dddd DD MMMM, YYYY") }}
                     </td>
                     <td class="p-1 border">
-                      <Link :href="genConvertLink(destCurrency, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ balance }} {{ srcCurrency.currency_code }}</Link> = <Link :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" class="text-blue-500 hover:text-gray-500">{{ Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5 }} {{ destCurrency.currency_code }}</Link>
+                      <Link 
+                        :href="genConvertLink(destCurrency, srcCurrency, balance)" 
+                        class="text-blue-500 hover:text-gray-500">
+                        {{ disSingleValue(balance) }} {{ srcCurrency.currency_code }}
+                      </Link> = 
+                      <Link 
+                        :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" 
+                        class="text-blue-500 hover:text-gray-500">
+                        {{ disValue(srcCurrency, destCurrency, balance) }}
+                        {{ destCurrency.currency_code }}
+                      </Link>
                     </td>
                   </tr>
                   <tr>
@@ -344,7 +350,7 @@ const props = withDefaults(defineProps<{
 
               <!-- Other currencies -->
               <div class="text-lg font-bold mt-6 mb-1">
-                {{ $t('CONVERT_OTHER_CURRENCIES', { amount: balance, code: srcCurrency.currency_code })}}
+                {{ $t('CONVERT_OTHER_CURRENCIES', { amount: disSingleValue(balance), code: srcCurrency.currency_code })}}
               </div>
               <div class="flex w-full flex-wrap">
                 <div 
@@ -352,9 +358,17 @@ const props = withDefaults(defineProps<{
                   :key="country.id" 
                   class="w-1/2 p-2 border text-gray-500"
                   >
-                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }})</Link> = 
-                  <Link :href="genConvertLink(country, srcCurrency, balance)" class="text-blue-500 hover:text-gray-500">{{ new Intl.NumberFormat().format(Math.round(balance * country.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5) }} 
-                  {{ country.currency_name }} {{ country.currency_code }}</Link>
+                  <Link 
+                    :href="genConvertLink(country, srcCurrency, balance)" 
+                    class="text-blue-500 hover:text-gray-500">
+                    {{ disSingleValue(balance) }} {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }})
+                  </Link> = 
+                  <Link 
+                    :href="genConvertLink(country, srcCurrency, balance)" 
+                    class="text-blue-500 hover:text-gray-500">
+                    {{ disValue(srcCurrency, country, balance) }}
+                    {{ country.currency_name }} {{ country.currency_code }}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -368,6 +382,7 @@ const props = withDefaults(defineProps<{
       <!-- Calculator page -->
       <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="props.mode == 4">
         <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-col">
+          <!-- Page title section -->
           <div class="mb-3">
             <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">
               {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
@@ -377,203 +392,55 @@ const props = withDefaults(defineProps<{
             </p>
           </div>
 
-          <!-- Flags -->
-          <div class="text-gray-900 flex p-3 gap-3 justify-between flex-wrap">
+          <!-- Display Main currencies -->
+          <div class="text-gray-900 flex p-3 justify-center gap-3">
             <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
-              ? 'flex flex-col items-center gap-1 pr-10'
-              : 'flex flex-col items-center gap-1'
-              ">
+              ? 'flex flex-col items-center gap-1 pr-10 text-nowrap'
+              : 'flex flex-col items-center gap-1' + (index > 8 ? ' max-[1280px]:hidden' : (index > 6 ? ' max-[768px]:hidden' : (index > 4 ? ' max-sm:hidden' : '')))">
               <div v-if="index != 0">
                 <Link :href="genConvertLink(srcCurrency, country, 100)">
-                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+                  <img :src="genFlagUrl(country.country_code)" :alt="country.country_name"/>
                 </Link>
               </div>
-              <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
+              <div v-else>
+                <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" :class="country.country_code == 'WW' ? 'img-btc': ''" />
+              </div>
               <div v-if="index != 0" class="currency-flag">
                 <Link :href="genConvertLink(srcCurrency, country, 100)">
-                  {{ country.currency_code }}
-                </Link>
+                  {{ country.currency_code }}</Link>
               </div>
               <div v-else>&nbsp;</div>
-              <div v-if="index == 0">1 {{ country.currency_code }} =</div>
+              <div v-if="index == 0">{{ disSingleValue(balance) }} {{ country.currency_code }} =</div>
               <div v-else>
-                {{
-                  country.currency_sign == "$"
-                    ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                    }`
-                    : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                    }${country.currency_sign}`
-                }}
+                {{ disValue(srcCurrency, country, 1, true) }}
               </div>
             </div>
           </div>
 
+          <!-- Convert function -->  
           <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="props.balance" :mode="1"/>
 
+          <!-- Calculator table -->
           <div>
             <CalculatorTable :countries="countries" :src="srcCurrency" :balance="props.balance" />
           </div>
           
+          <!-- Link section -->
           <div>
             <div class="border p-2">
-              {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
-              currency in the following countries: {{ srcCurrency.country_name }}
+              {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code, countries: official })}}
             </div>
             <br />
             <div class="border p-2">
-              Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
-                (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
-              into your page:
+              {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code})}}
             </div>
-            <textarea
-              class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
+            <textarea class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
           </div>
         </div>
       </div>
 
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
-        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-wrap">
-          <div>
-            <div class="mb-3">
-              <h1 class="fs-22 font-bold">
-                {{ genCurrencyFullName(props.srcCurrency) }} - Current currency exchange converter page
-              </h1>
-              <p>Last update {{ new Date(srcCurrency.latest_currency['date']) }}</p>
-            </div>
-
-            <div class="text-gray-900 flex p-3 gap-3 justify-center flex-wrap">
-              <div v-for="(country, index) in props.topCountries" :key="country.id" :class="index == 0
-                ? 'flex flex-col items-center gap-1 pr-10'
-                : 'flex flex-col items-center gap-1'
-                ">
-                <div v-if="index != 0">
-                  <Link :href="genConvertLink(srcCurrency, country, 100)">
-                    <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
-                  </Link>
-                </div>
-                <div v-else><img :src="genFlagUrl(country.country_code)" :alt="country.country_name" /></div>
-                <div v-if="index != 0" class="currency-flag">
-                  <Link :href="genConvertLink(srcCurrency, country, 100)">
-                    {{ country.currency_code }}
-                  </Link>
-                </div>
-                <div v-else>&nbsp;</div>
-                <div v-if="index == 0">1 {{ country.currency_code }} =</div>
-                <div v-else>
-                  {{
-                    country.currency_sign == "$"
-                      ? `$${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                      }`
-                      : `${Math.round((country.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 100) / 100
-                      }${country.currency_sign}`
-                  }}
-                </div>
-              </div>
-            </div>
-
-            <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
-
-            <div class="p-2 flex flex-col rounded-md border items-center">
-              <div>
-                <span>What is the exchange rate of 1
-                  {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} in
-                  {{ `${destCurrency.call} ${destCurrency.currency_name}` }}?</span>
-              </div>
-              <div>
-                <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
-                  1 {{ srcCurrency.currency_code }} =
-                  {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                  {{ destCurrency.currency_code }}
-                </h2>
-              </div>
-
-              <hr class="w-full" />
-
-              <div class="flex w-full justify-around mt-3 flex-wrap">
-                <div class="flex flex-col items-center">
-                  <div class="currency-flag">
-                    <Link :href="genCurrencyLink(srcCurrency)">
-                    Check this
-                    currency</Link>
-                  </div>
-                  <div class="currency-flag">
-                    <Link :href="genCurrencyLink(srcCurrency)">
-                      {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }}
-                    </Link>
-                  </div>
-                  <div>
-                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }}) = {{ Math.round((destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }})
-                  </div>
-                </div>
-                <div class="flex flex-col items-center">
-                  <div class="currency-flag">
-                    <Link :href="genCurrencyLink(destCurrency)">
-                      Check this currency
-                    </Link>
-                  </div>
-                  <div class="currency-flag">
-                    <Link :href="genCurrencyLink(destCurrency)">
-                      {{ `${destCurrency.call} ${destCurrency.currency_name}` }}
-                    </Link>
-                  </div>
-                  <div>
-                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{
-                      destCurrency.currency_sign
-                    }}) = {{ Math.round((srcCurrency.latest_currency['balance'] / destCurrency.latest_currency['balance']) * 1e5) / 1e5 }}
-                    {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{
-                      srcCurrency.currency_sign
-                    }})
-                  </div>
-                </div>
-              </div>
-
-              <hr class="w-full mt-4 mb-2 border" />
-
-              <div>
-                <p>
-                  On this page, you can find conversion of
-                  <b>1 {{ srcCurrency.call }} {{ srcCurrency.currency_name }} ({{ srcCurrency.currency_code }}) to
-                    {{ destCurrency.call }} {{ destCurrency.currency_name }} ({{ destCurrency.currency_code }})</b>.
-                  Calculator shows the exchange rate of the two currencies conversion. Please find above the latest
-                  exchange rate between them, updated at {{ srcCurrency.latest_currency['date'] }}. If you want to calculate
-                  <b>{{ srcCurrency.call }} {{ srcCurrency.currency_name }}</b> or to many currencies,
-                  then please go to
-                  <Link :href="genCalculatorLink(srcCurrency)" class="text-blue-500 hover:text-gray-500">{{
-                    srcCurrency.currency_code }} calculator</Link> or
-                  <Link :href="genCalculatorLink(destCurrency)" class="text-blue-500 hover:text-gray-500">{{
-                    destCurrency.currency_code }} calculator</Link>. Our money
-                  converter is using actual average data from different currency rates sources.
-                </p>
-              </div>
-            </div>
-            <div>
-              <Tabs :countries="countries" :src="srcCurrency" />
-            </div>
-
-            <div>
-              <div class="border p-2">
-                {{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }} is an official
-                currency in the following countries: {{ srcCurrency.country_name }}
-              </div>
-              <br />
-              <div class="border p-2">
-                Link to this page. If you would like to link to <b>{{ `${srcCurrency.call} ${srcCurrency.currency_name}
-                  (${srcCurrency.currency_code})` }}</b> exchange rates page, simply copy and paste the HTML from below
-                into your page:
-              </div>
-              <textarea
-                class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
-            </div>
-          </div>
-          <div>
-            <CurrienciesView :countries="countries" />
-          </div>
-        </div>
+        <div class="flex bg-white shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5 max-[1080px]:flex-wrap" />
       </div>
     </div>
   </MainLayout>
