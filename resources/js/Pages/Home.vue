@@ -8,7 +8,6 @@ import { Country, Currency } from "@/types";
 import { 
   genCurrencyLink, 
   genFlagUrl, 
-  genCurrencyFullName, 
   SERVER_URL, 
   genCalculatorLink, 
   genConvertLink, 
@@ -17,6 +16,7 @@ import {
 } from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
 import moment from "moment";
+import { onMounted, ref } from "vue";
 
 const props = withDefaults(defineProps<{
   countries: [Country];
@@ -33,6 +33,13 @@ const props = withDefaults(defineProps<{
   mode: 1,
   official: ""
 });
+
+const balance = ref(props.balance)
+
+onMounted(() => {
+  if(props.mode == 1 || props.mode == 3)
+    balance.value = Math.pow(10, Math.floor(Math.log10(props.srcCurrency.latest_currency['balance'])));
+})
 
 </script>
 
@@ -76,7 +83,7 @@ const props = withDefaults(defineProps<{
                 <div v-else>&nbsp;</div>
                 <div v-if="index == 0">{{ disSingleValue(balance) }} {{ country.currency_code }} =</div>
                 <div v-else>
-                  {{ disValue(srcCurrency, country, 1, true) }}
+                  {{ disValue(srcCurrency, country, balance, true) }}
                 </div>
               </div>
             </div>
@@ -96,7 +103,7 @@ const props = withDefaults(defineProps<{
               </div>
               <div>
                 <h2 style="color: #f96010; font-weight: 700; font-size: 1.4rem">
-                  {{ disSingleValue(balance) }} {{ srcCurrency.currency_code }} = {{ disValue(srcCurrency, destCurrency) }} {{ destCurrency.currency_code }}
+                  {{ disSingleValue(1) }} {{ srcCurrency.currency_code }} = {{ disValue(srcCurrency, destCurrency, 1) }} {{ destCurrency.currency_code }}
                 </h2>
               </div>
 
@@ -114,7 +121,7 @@ const props = withDefaults(defineProps<{
                     </Link>
                   </div>
                   <div>
-                    {{ disSingleValue(balance) }} {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }}) = 
+                    1 {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }}) = 
                     {{ disValue(srcCurrency, destCurrency) }}
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }})
                   </div>
@@ -130,7 +137,7 @@ const props = withDefaults(defineProps<{
                     {{ `${destCurrency.call} ${destCurrency.currency_name}` }}</Link>
                   </div>
                   <div>
-                    {{ disSingleValue(balance) }} {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }}) = 
+                    1 {{ `${destCurrency.call} ${destCurrency.currency_name}` }} ({{ destCurrency.currency_sign }}) = 
                     {{ disValue(destCurrency, srcCurrency) }}
                     {{ `${srcCurrency.call} ${srcCurrency.currency_name}` }} ({{ srcCurrency.currency_sign }})
                   </div>
@@ -142,7 +149,7 @@ const props = withDefaults(defineProps<{
               <!-- Tip box -->
               <div>
                 <p v-html="$t('PAGE_CONTENT', {
-                  amount: disSingleValue(balance),
+                  amount: disSingleValue(1),
                   src_cuname: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                   src_code: srcCurrency.currency_code,
                   dest_cuname: `${ srcCurrency.call } ${ srcCurrency.currency_name }`,

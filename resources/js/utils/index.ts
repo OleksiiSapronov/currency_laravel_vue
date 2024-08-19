@@ -61,16 +61,31 @@ export const disSingleValue = (value: number): string => {
   return `${new Intl.NumberFormat().format(value)}`;
 }
 
-export const disValue = (src: Country, dest: Country, amount: number = 1, show: boolean = false): string => {
-  let divider = 1e5;
+export const disValue = (src: Country, dest: Country, amount: number = 1, show: boolean = false, precision = 2): string => {
+  let rate = Math.pow(10, Math.floor(Math.log10(src.latest_currency['balance'])));
+  if(Math.floor(Math.log10(rate / amount)) >= 4) precision = 8;
+  else if(Math.floor(Math.log10(rate / amount)) >= 3) precision = 6;
+  else if(Math.floor(Math.log10(rate / amount)) >= 2) precision = 4;
+  else if(Math.floor(Math.log10(rate / amount)) >= 1) precision = 2;
+  // Format as currency
+  const formatter = new Intl.NumberFormat('en', {
+    style: 'decimal',
+    currency: dest.currency_code,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: precision
+  });
+
+  // console.log(formatter.format(1234567.89));
+
+  let divider = rate * 1000;
   if(dest.country_code == "WW") divider = 1e7;
   let value = Math.round(amount * dest.latest_currency.balance * divider / src.latest_currency.balance) / divider;
   if(src.country_code == "WW") {
     value = Math.round(value);
-    return `${new Intl.NumberFormat().format(value)}`;
+    return `${formatter.format(value)}`;
   }
   if(dest.country_code == "WW") return `${value}`;
-  if(!show) return `${new Intl.NumberFormat().format(value)}`;
-  if(dest.currency_sign == '$') return `$${new Intl.NumberFormat().format(value)}`;
-  return `${new Intl.NumberFormat().format(value)}${dest.currency_sign}`;
+  if(!show) return `${formatter.format(value)}`;
+  if(dest.currency_sign == '$') return `$${formatter.format(value)}`;
+  return `${formatter.format(value)}${dest.currency_sign}`;
 }
