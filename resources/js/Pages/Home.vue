@@ -50,7 +50,7 @@ onMounted(() => {
   <Head title="Home" />
 
   <MainLayout>
-    <div class="py-6">
+    <div class="min-[640px]:py-6">
       <!-- Main page -->
       <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="props.mode == 1 || props.mode == 3">
         <div class="flex bg-white shadow-sm sm:rounded-lg md:px-12 md:pb-12 min-[320px]:px-2 min-[320px]:pb-6 lg:gap-5 max-[1080px]:flex-wrap">
@@ -194,7 +194,7 @@ onMounted(() => {
 
       <!-- Convert src to dest page -->
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="mode == 2">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 flex gap-3 pb-6 max-[1080px]:flex-wrap">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg min-[1080px]:px-12 min-[640px]:px-6 min-[320px]:px-3 flex gap-3 pb-6 max-[1080px]:flex-wrap">
           <div>
             <!-- Page title -->
             <div class="mb-3">
@@ -390,7 +390,7 @@ onMounted(() => {
 
       <!-- Calculator page -->
       <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8" v-else-if="props.mode == 4">
-        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 pb-12 lg:gap-5 flex-col">
+        <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg min-[1080px]:px-12 min-[640px]:px-6 min-[320px]:px-3 pb-6 lg:gap-5 flex-col">
           <!-- Page title section -->
           <div class="mb-3">
             <div class="text-2xl pt-6 pb-3 text-gray-500 font-extrabold">

@@ -8,7 +8,7 @@
         <th scope="col" class="px-1 py-2 border">
           {{ $t('CURRENT_FX_RATE') }}
         </th>
-        <th scope="col" class="px-1 py-2 border text-nowrap">
+        <th scope="col" class="px-1 py-2 border text-nowrap max-[768px]:hidden">
           {{ $t('FX_CALCULATOR' )}}
         </th>
         <th scope="col" class="px-1 py-2 border">
@@ -32,7 +32,7 @@
             1 {{ props.src?.currency_code }} = {{ disValue(src, country) }} {{ country.currency_code }}
           </Link>
         </td>
-        <td class="p-1 border text-sm">
+        <td class="p-1 border text-sm max-[768px]:hidden">
           <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('CURRENCY_CALCULATOR', { code: country.currency_code })}}
           </Link>

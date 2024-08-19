@@ -14,7 +14,7 @@ class HomeController extends Controller
         $res = "";
         $countries = Country::where('currency_code', $code)->get();
         foreach ($countries as $country) {
-            if($res != "") $res .= ",";
+            if($res != "") $res .= ", ";
             $res .= $country['country_name'];
         }
         return $res;
@@ -129,11 +129,15 @@ class HomeController extends Controller
                         
             $destCurrency = Country::with('latestCurrency')->where('country_code', 'EU')->first();
             
-            $topCountries[0] = $srcCountry;
+            $tmp = array($srcCountry);
+            foreach($topCountries as $country) {
+                if($country['country_code'] == $srcCountry['country_code']) continue;
+                $tmp[] = $country;
+            }
 
             return Inertia::render('Home', [
                 'countries' => $countries,
-                'topCountries' => $topCountries,
+                'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,
                 'destCurrency' => $destCurrency,
                 'mode' => 3
@@ -144,15 +148,22 @@ class HomeController extends Controller
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
             $balance = floatval($data[0]);
 
-            $topCountries[0] = $srcCountry;
+            $officalNames = $this->getOfficialCountries($srcCountry['currency_code']);
+
+            $tmp = array($srcCountry);
+            foreach($topCountries as $country) {
+                if($country['country_code'] == $srcCountry['country_code']) continue;
+                $tmp[] = $country;
+            }
 
             return Inertia::render('Home', [
                 'countries' => $countries,
-                'topCountries' => $topCountries,
+                'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,
                 'destCurrency' => $srcCountry,
                 'mode' => 4,
-                'balance' => $balance == 0 ? 100 : $balance
+                'balance' => $balance == 0 ? 100 : $balance,
+                'official' => $officalNames
             ]);
         } else if(preg_match('/([0-9.]+)-([a-z-]+)-to-([a-z-]+).html/i', $value, $matches)) {
             $amount = floatval($matches[1]);
@@ -170,9 +181,15 @@ class HomeController extends Controller
             }
             $topCountries[0] = $srcCountry;
 
+            $tmp = array($srcCountry);
+            foreach($topCountries as $country) {
+                if($country['country_code'] == $srcCountry['country_code']) continue;
+                $tmp[] = $country;
+            }
+
             return Inertia::render('Home', [
                 'countries' => $countries,
-                'topCountries' => $topCountries,
+                'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,
                 'destCurrency' => $destCountry,
                 'mode' => 2,

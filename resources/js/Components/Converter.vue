@@ -1,17 +1,17 @@
 <template>
-  <div class="flex gap-3 mb-3 flex-wrap" v-if="mode == 0">
+  <div class="flex gap-3 mb-3 max-[768px]:flex-col" v-if="mode == 0">
     <input
       type="number"
       name="balance"
       id="balance"
       autocomplete="balance"
-      class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
+      class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
       :placeholder="$t('CONVERT_QUANTITY')"
       v-model="quantity"
     />
 
     <select
-      class="w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+      class="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full"
       v-model="srcValue"
     >
       <optgroup label="Main currencies">
@@ -35,7 +35,7 @@
     </select>
 
     <select
-      class="w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+      class="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full"
       v-model="destValue"
     >
       <optgroup label="Main currencies">
@@ -74,19 +74,19 @@
       {{ $t('CONVERT').toUpperCase() }}
     </button>
   </div>
-  <div class="flex gap-3 mb-3 flex-wrap" v-else>
+  <div class="flex gap-3 mb-3 max-[768px]:flex-col" v-else>
     <input
       type="number"
       name="balance"
       id="balance"
       autocomplete="balance"
-      class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-24"
+      class="rounded-md border py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 w-full"
       :placeholder="$t('CONVERT_QUANTITY')"
       v-model="quantity"
     />
 
     <select
-      class="w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+      class="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 w-full sm:text-sm sm:leading-6"
       v-model="destValue"
     >
       <optgroup label="Main currencies">
@@ -111,7 +111,7 @@
 
     <button
       type="button"
-      class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert"
+      class="rounded-md border-0 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-50 convert w-full"
       @click="handleRedirectCalculator"
     >
       {{ $t('CONVERT').toUpperCase() }}

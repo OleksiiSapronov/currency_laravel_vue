@@ -19,13 +19,13 @@
           <th scope="col" class="px-1 py-2 border">
             {{ $t('CURRENT_FX_RATE') }}
           </th>
-          <th scope="col" class="px-1 py-2 border text-nowrap">
+          <th scope="col" class="px-1 py-2 border text-nowrap max-[768px]:hidden">
             {{ $t('LAST_UPDATE') }}
           </th>
           <th scope="col" class="px-1 py-2 border">
             {{ $t('CONVERT') }}
           </th>
-          <th scope="col" class="px-1 py-2 border text-nowrap">
+          <th scope="col" class="px-1 py-2 border text-nowrap max-[768px]:hidden">
             {{ $t('FX_CALCULATOR') }}
           </th>
         </tr>
@@ -53,7 +53,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -61,7 +61,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
               {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -90,7 +90,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -98,7 +98,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
               {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -127,7 +127,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -135,7 +135,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -164,7 +164,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -172,7 +172,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -201,7 +201,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -209,7 +209,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -238,7 +238,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -246,7 +246,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
@@ -275,7 +275,7 @@
             {{ disValue(src, country) }}
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">{{ country.currency_code }}</Link> 
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             {{ country.latest_currency['date'] }}
           </td>
           <td class="p-1 border text-sm">
@@ -283,7 +283,7 @@
             {{ $t('CONVERT') }} {{ src.currency_code }} {{ $t('TO') }} {{ country.currency_code }}
             </Link>
           </td>
-          <td class="p-1 border text-sm">
+          <td class="p-1 border text-sm max-[768px]:hidden">
             <Link :href="genCalculatorLink(country)" class="text-blue-500 hover:text-gray-500">
             {{ $t('FX_CALCULATOR') }} {{ country.currency_code }} 
             </Link>
