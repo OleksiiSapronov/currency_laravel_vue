@@ -37,8 +37,10 @@ const props = withDefaults(defineProps<{
 const balance = ref(props.balance)
 
 onMounted(() => {
-  if(props.mode == 1 || props.mode == 3)
+  if(props.mode == 1 || props.mode == 3) {
     balance.value = Math.pow(10, Math.floor(Math.log10(props.srcCurrency.latest_currency['balance'])));
+    if(balance.value < 1) balance.value = 1;
+  }
 })
 
 </script>
