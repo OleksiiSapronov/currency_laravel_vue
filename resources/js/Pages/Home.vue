@@ -58,11 +58,11 @@ onMounted(() => {
             <!-- Title -->
             <div class="mb-3">
               <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
-              <div v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</div>
+              <div v-if="props.mode == 1" class="text-sm">{{ $t('MAIN_DESCRIPTION') }}</div>
               <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
-              <div>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</div>
+              <div class="text-sm">{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</div>
             </div>
 
             <!-- Display Main currencies -->
