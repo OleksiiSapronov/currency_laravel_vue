@@ -57,11 +57,11 @@ onMounted(() => {
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="min-[1080px]:text-md pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
+              <div class="min-[1080px]:text-md pt-6 pb-3" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
               <div v-if="props.mode == 1" class="min-[1080px]:text-sm">{{ $t('MAIN_DESCRIPTION') }}</div>
-              <div class="min-[1080px]:text-sm pt-6 pb-3 font-medium" style="font-size: 1rem;">
+              <span class="min-[1080px]:text-md pt-6 pb-3 inline-block">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
-              </div>
+              </span>
               <div class="min-[1080px]:text-sm">{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</div>
             </div>
 
