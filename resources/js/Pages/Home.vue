@@ -58,11 +58,11 @@ onMounted(() => {
             <!-- Title -->
             <div class="mb-3">
               <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
-              <p v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</p>
+              <div v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</div>
               <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
-              <p>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</p>
+              <div>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</div>
             </div>
 
             <!-- Display Main currencies -->
@@ -150,7 +150,7 @@ onMounted(() => {
 
               <!-- Tip box -->
               <div>
-                <p v-html="$t('PAGE_CONTENT', {
+                <div v-html="$t('PAGE_CONTENT', {
                   amount: disSingleValue(1),
                   src_cuname: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                   src_code: srcCurrency.currency_code,
@@ -159,11 +159,11 @@ onMounted(() => {
                   src_date: srcCurrency.latest_currency['date'],
                   link1: genCalculatorLink(srcCurrency),
                   link2: genCalculatorLink(destCurrency)
-                })"></p>
+                })"></div>
                 <br v-if="props.mode == 1" />
-                <p v-if="props.mode == 1">
+                <div v-if="props.mode == 1">
                   {{ $t('ABOUT_SITE') }}
-                </p>
+                </div>
               </div>
             </div>
             
@@ -257,15 +257,15 @@ onMounted(() => {
 
               <hr class="w-full mt-3 mb-2" />
 
-              <p>
+              <div>
                 {{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}
-              </p>
+              </div>
             </div>
 
             <Converter :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="balance"/>
 
             <div>
-              <p v-html="$t('CONVERT_TEXT', {
+              <div v-html="$t('CONVERT_TEXT', {
                 amount: disSingleValue(balance),
                 src_name: `${srcCurrency.call} ${srcCurrency.currency_name}`,
                 src_code: srcCurrency.currency_code,
@@ -396,9 +396,9 @@ onMounted(() => {
             <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
               {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
             </div>
-            <p>
+            <div>
               {{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}
-            </p>
+            </div>
           </div>
 
           <!-- Display Main currencies -->

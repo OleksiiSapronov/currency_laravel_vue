@@ -25,7 +25,7 @@
         }}
       </b>
       <br />
-      <p v-html="$t('TAB_SUBTITLE', { name: `${src.call} ${src.currency_name}` })" />
+      <div v-html="$t('TAB_SUBTITLE', { name: `${src.call} ${src.currency_name}` })" />
     </div>
   </div>
   <div class="tabs-content rounded-md">

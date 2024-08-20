@@ -12,10 +12,10 @@ import { Head } from "@inertiajs/vue3";
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900">
             <h1 class="label">Kontakt</h1>
-            <p class="content">
+            <div class="content">
               Uwagi, pytania, reklama, coś innego? Skontaktuj się z nami:
               kontakt@azconvert.com
-            </p>
+            </div>
           </div>
         </div>
       </div>
