@@ -94,7 +94,7 @@ onMounted(() => {
             <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
 
             <div class="p-2 flex flex-col rounded-md border items-center">
-              <div>
+              <div class="min-[1080px]:text-xl font-medium">
                 {{ 
                   $t('PAGE_EXCHANGE_RATE', { 
                     amount: 1, 
