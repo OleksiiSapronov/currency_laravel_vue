@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Cache;
 class HomeController extends Controller
 {
     private function getOfficialCountries($code) {
-        $res = "";
-        $countries = Country::where('currency_code', $code)->get();
-        foreach ($countries as $country) {
-            if($res != "") $res .= ", ";
-            $res .= $country['country_name'];
-        }
-        return $res;
+        return Cache::remember('official_' . $code, $seconds = 60 * 60, function () use ($code) {
+            $res = "";
+            $countries = Country::where('currency_code', $code)->get();
+            foreach ($countries as $country) {
+                if($res != "") $res .= ", ";
+                $res .= $country['country_name'];
+            }
+            return $res;
+        });
     }
 
     private function getRange($code, $code2) {
@@ -87,9 +89,9 @@ class HomeController extends Controller
     }
 
     private function getTopCurrencies() {
-        // return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
+        return Cache::remember('top_currencies', $seconds = 60 * 60, function () {
             return Country::with('latestCurrency')->where('top_currency', true)->orderBy('top_order')->limit(12)->get();
-        // });
+        });
     }
 
     public function index() {
@@ -99,8 +101,12 @@ class HomeController extends Controller
         $destCurrency = null;
 
         if(count($topCountries) < 2) {
-            $srcCurrency = Country::with('latestCurrency')->where('country_code', 'US')->first();
-            $destCurrency = Country::with('latestCurrency')->where('country_code', 'EU')->first();
+            $srcCurrency = Cache::remember('src_currency_US', $seconds = 60 * 60, function () {
+                return Country::with('latestCurrency')->where('country_code', 'US')->first();
+            });
+            $destCurrency = Cache::remember('src_currency_EU', $seconds = 60 * 60, function () {
+                return Country::with('latestCurrency')->where('country_code', 'US')->first();
+            });
         } else {
             $srcCurrency = $topCountries[0];
             $destCurrency = $topCountries[1];
@@ -124,10 +130,13 @@ class HomeController extends Controller
         
         if(preg_match('/([a-z-]+)-page.html/i', $value, $matches)) {
             $data = explode('-', $matches[1]);
-            $srcCountry = Country::with('latestCurrency')
+            $srcCountry = Cache::remember('src_currency_' . strtoupper($data[count($data) - 1]), $seconds = 60 * 60, function () use($data) {
+                return Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
-                        
-            $destCurrency = Country::with('latestCurrency')->where('country_code', 'EU')->first();
+            });
+            $destCurrency = Cache::remember('src_currency_EU', $seconds = 60 * 60, function () {
+                return Country::with('latestCurrency')->where('country_code', 'EU')->first();
+            });
             
             $tmp = array($srcCountry);
             foreach($topCountries as $country) {
@@ -144,8 +153,11 @@ class HomeController extends Controller
             ]);
         } else if(preg_match('/([a-z-0-9.]+)-calculator.html/i', $value, $matches)) {
             $data = explode('-', $matches[1]);
-            $srcCountry = Country::with('latestCurrency')
+            $srcCountry = Cache::remember('src_currency_' . strtoupper($data[count($data) - 1]), $seconds = 60 * 60, function () use($data) {
+                return Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
+            });
+            
             $balance = floatval($data[0]);
 
             $officalNames = $this->getOfficialCountries($srcCountry['currency_code']);
@@ -168,11 +180,18 @@ class HomeController extends Controller
         } else if(preg_match('/([0-9.]+)-([a-z-]+)-to-([a-z-]+).html/i', $value, $matches)) {
             $amount = floatval($matches[1]);
             $data = explode('-', $matches[2]);
-            $srcCountry = Country::with('currencies')->with('latestCurrency')
+
+            $srcCountry = Cache::remember('src_currency_' . strtoupper($data[count($data) - 1]), $seconds = 60 * 60, function () use($data) {
+                return Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
+            });
+            
             $data = explode('-', $matches[3]);
-            $destCountry = Country::with('latestCurrency')
+
+            $destCountry = Cache::remember('src_currency_' . strtoupper($data[count($data) - 1]), $seconds = 60 * 60, function () use($data) {
+                return Country::with('latestCurrency')
                 ->where('currency_code', strtoupper($data[count($data) - 1]))->first();
+            });
 
             $ranges = $this->getRange($srcCountry['currency_code'], $destCountry['currency_code']);
             $range = array();
