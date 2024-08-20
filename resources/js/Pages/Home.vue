@@ -57,9 +57,9 @@ onMounted(() => {
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
+              <div class="min-[1080px]:text-md pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
               <div v-if="props.mode == 1" class="text-sm">{{ $t('MAIN_DESCRIPTION') }}</div>
-              <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
+              <div class="min-[1080px]:text-md pt-6 pb-3 font-medium">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
               <div class="text-sm">{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</div>
@@ -94,7 +94,7 @@ onMounted(() => {
             <Converter class="pb-3 pt-3" :countries="countries" :src="srcCurrency" :dest="destCurrency" :default="1" />
 
             <div class="p-2 flex flex-col rounded-md border items-center">
-              <div class="min-[1080px]:text-xl font-medium">
+              <div class="min-[1080px]:text-md font-medium">
                 {{ 
                   $t('PAGE_EXCHANGE_RATE', { 
                     amount: 1, 
@@ -358,7 +358,7 @@ onMounted(() => {
               </table>
 
               <!-- Other currencies -->
-              <div class="min-[1080px]:text-xl font-bold mt-6 mb-1">
+              <div class="min-[1080px]:text-md font-bold mt-6 mb-1">
                 {{ $t('CONVERT_OTHER_CURRENCIES', { amount: disSingleValue(balance), code: srcCurrency.currency_code })}}
               </div>
               <div class="flex w-full flex-wrap">
@@ -393,7 +393,7 @@ onMounted(() => {
         <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg min-[1080px]:px-12 min-[640px]:px-6 min-[320px]:px-3 pb-6 lg:gap-5 flex-col">
           <!-- Page title section -->
           <div class="mb-3">
-            <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
+            <div class="min-[1080px]:text-md pt-6 pb-3 font-medium">
               {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
             </div>
             <div>
