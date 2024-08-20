@@ -6,7 +6,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 py-12 lg:gap-5">
           <div class="flex flex-col gap-5">
-            <h1 class="text-lg font-bold">Upload CSV File</h1>
+            <h1 class="min-[1024px]:text-lg font-bold">Upload CSV File</h1>
             <form @submit.prevent="submit">
               <input type="file" ref="fileInput" accept=".csv" />
               <button 

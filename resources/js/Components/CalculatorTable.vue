@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="border p-2">
-      <div class="text-lg font-bold">
+      <div class="min-[1024px]:text-lg font-bold">
         {{ $t('CALCULATOR_TABLE_TITLE', { name: `${src.call} ${src.currency_name}`, code: src.currency_name }) }}
       </div>
       <p v-html="$t('CALCULATOR_TABLE_DESCRIPTION', {

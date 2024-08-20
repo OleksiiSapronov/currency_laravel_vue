@@ -57,9 +57,9 @@ onMounted(() => {
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
+              <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
               <p v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</p>
-              <div class="text-xl pt-6 pb-3 font-medium">
+              <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
               <p>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</p>
@@ -277,7 +277,7 @@ onMounted(() => {
             </div>
 
             <div>
-              <div class="text-lg font-bold mt-6 mb-1">
+              <div class="min-[1024px]:text-lg font-bold mt-6 mb-1">
                 {{ $t('CONVERT_TABLE_NAME', { src_code: srcCurrency.currency_code, dest_code: destCurrency.currency_code }) }}
               </div>
               <table class="w-full text-left rtl:text-right text-gray-500">
@@ -315,7 +315,7 @@ onMounted(() => {
                 </tbody>
               </table>
 
-              <div class="text-lg font-bold mt-6 mb-1">
+              <div class="min-[1024px]:text-lg font-bold mt-6 mb-1">
                 {{ $t('CONVERT_HISTORY', { from: moment(Date.now()).format("dddd DD MMMM, YYYY"), to: moment(Date.now() - 60 * 60 * 24 * 30).format("dddd DD MMMM, YYYY") })}}
               </div>
               <table class="w-full text-left rtl:text-right text-gray-500">
@@ -358,7 +358,7 @@ onMounted(() => {
               </table>
 
               <!-- Other currencies -->
-              <div class="text-lg font-bold mt-6 mb-1">
+              <div class="min-[1080px]:text-xl font-bold mt-6 mb-1">
                 {{ $t('CONVERT_OTHER_CURRENCIES', { amount: disSingleValue(balance), code: srcCurrency.currency_code })}}
               </div>
               <div class="flex w-full flex-wrap">
@@ -393,7 +393,7 @@ onMounted(() => {
         <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg min-[1080px]:px-12 min-[640px]:px-6 min-[320px]:px-3 pb-6 lg:gap-5 flex-col">
           <!-- Page title section -->
           <div class="mb-3">
-            <div class="text-xl pt-6 pb-3 font-medium">
+            <div class="min-[1080px]:text-xl pt-6 pb-3 font-medium">
               {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
             </div>
             <p>

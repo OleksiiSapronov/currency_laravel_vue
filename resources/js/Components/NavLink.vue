@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const classes = computed(() =>
   props.active
-    ? "inline-flex items-center px-1 pt-1 border-b-4 border-white-400 text-lg leading-5 text-white-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out font-bold"
+    ? "inline-flex items-center px-1 pt-1 border-b-4 border-white-400 min-[1024px]:text-lg leading-5 text-white-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out font-bold"
     : "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm leading-5 text-white-500 hover:text-white-700 hover:border-gray-300 focus:outline-none focus:text-white focus:border-gray-300 transition duration-150 ease-in-out"
 );
 </script>
