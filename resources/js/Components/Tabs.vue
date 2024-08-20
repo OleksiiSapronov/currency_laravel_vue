@@ -1,5 +1,5 @@
 <template>
-  <div class="text-2xl py-6 text-gray-500 font-extrabold">Conversion table for major world currencies</div>
+  <div class="text-2xl py-6 text-gray-500 font-bold">Conversion table for major world currencies</div>
   <div class="tabs-header">
     <ul class="flex border-b flex-wrap">
       <li 
