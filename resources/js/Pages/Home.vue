@@ -57,9 +57,9 @@ onMounted(() => {
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div class="text-2xl pt-6 pb-3 text-gray-500 font-bold" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
+              <div class="text-xl pt-6 pb-3 font-medium" v-if="props.mode == 1">{{ $t('MAIN_TITLE') }} </div>
               <p v-if="props.mode == 1">{{ $t('MAIN_DESCRIPTION') }}</p>
-              <div class="text-2xl pt-6 pb-3 text-gray-500 font-bold">
+              <div class="text-xl pt-6 pb-3 font-medium">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
               <p>{{ $t('UPDATED_TIME', { date: moment(srcCurrency.latest_currency['date']).format('DD MMMM YYYY HH:mm [UTC]') }) }}</p>
@@ -393,7 +393,7 @@ onMounted(() => {
         <div class="flex bg-white overflow-hidden shadow-sm sm:rounded-lg min-[1080px]:px-12 min-[640px]:px-6 min-[320px]:px-3 pb-6 lg:gap-5 flex-col">
           <!-- Page title section -->
           <div class="mb-3">
-            <div class="text-2xl pt-6 pb-3 text-gray-500 font-bold">
+            <div class="text-xl pt-6 pb-3 font-medium">
               {{ $t('CALCULATOR_TITLE', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code })}}
             </div>
             <p>
