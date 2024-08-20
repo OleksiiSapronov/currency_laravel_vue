@@ -181,7 +181,7 @@ onMounted(() => {
               <div class="border p-2">
                 {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code})}}
               </div>
-              <textarea class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
+              <textarea aria-label="link-address" class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
             </div>
           </div>
 
@@ -443,7 +443,7 @@ onMounted(() => {
             <div class="border p-2">
               {{ $t('LINK_TEXT', { name: `${srcCurrency.call} ${srcCurrency.currency_name}`, code: srcCurrency.currency_code})}}
             </div>
-            <textarea class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
+            <textarea aria-label="link-address" class="w-full"><a href="{{ SERVER_URL }}{{ genCurrencyLink(srcCurrency) }}">{{ `${srcCurrency.call} ${srcCurrency.currency_name} (${srcCurrency.currency_code})` }}  exchange rates</a></textarea>
           </div>
         </div>
       </div>
