@@ -5,8 +5,31 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
 import ScrollUp from "@/Components/ScrollUp.vue";
 import CookieSnackBar from "@/Components/CookieSnackBar.vue";
+import { useI18n } from 'vue-i18n'
 
+const { locale } = useI18n()
 const showingNavigationDropdown = ref(false);
+const cLanguage = ref(localStorage.getItem('lang') || "en");
+const languages = ref([
+        {lang: "en", label: "English"},
+        {lang: "id", label: "Bahasa Indonesia"},
+        {lang: "nl", label: "Nederlands"},
+        {lang: "cs", label: "Čeština"},
+        {lang: "it", label: "Italiano"},
+        {lang: "pl", label: "Polski"},
+        {lang: "pt", label: "Português"},
+        {lang: "sv", label: "Svenska"},
+        {lang: "fr", label: "Français"},
+        {lang: "de", label: "Deutsch"},
+        {lang: "ro", label: "Limba Română"},
+        {lang: "hi", label: "हिन्दी"},
+        {lang: "tr", label: "Türkçe"},
+        {lang: "bn", label: " বাংলা"}
+      ]);
+  function cLanguageChange() {
+    localStorage.setItem('lang', cLanguage.value);
+    locale.value = localStorage.getItem('lang') || "en";
+  }
 </script>
 
 <template>
@@ -26,6 +49,16 @@ const showingNavigationDropdown = ref(false);
             </div>
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex uppercase">
+              <select
+                class="h-[2rem] self-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6"
+                placeholder="Select A Language"
+                v-model="cLanguage"
+                v-on:change="cLanguageChange"
+              >
+                <option v-for="language in languages" :key="language.lang" :value="language.lang">
+                  {{ language.label }}
+                </option>
+              </select>
               <NavLink :href="route('home')" :active="route().current('home')">
                 Home
               </NavLink>
@@ -39,6 +72,16 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
+              <select
+                class="h-[2rem] self-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6 mr-3"
+                placeholder="Select A Language"
+                v-model="cLanguage"
+                v-on:change="cLanguageChange"
+              >
+                <option v-for="language in languages" :key="language.lang" :value="language.lang">
+                  {{ language.label }}
+                </option>
+              </select>
               <button @click="showingNavigationDropdown = !showingNavigationDropdown"
                 name="open-menu" type="button"
                 aria-label="open-menu"
