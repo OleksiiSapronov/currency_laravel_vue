@@ -2,6 +2,9 @@ import { createI18n } from 'vue-i18n';
 
 const messages = {
     en: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         MAIN_TITLE: "Online currency converter.",
         MAIN_DESCRIPTION: "Currency converter (Euro, Dollar, BTC), FX exchange rate and calculator.",
         PAGE_TITLE: "{currency} - Current currency exchange converter page",
@@ -45,6 +48,9 @@ const messages = {
         SWITCH: "Switch"
     },
     id: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Konverter mata uang online.",
         "MAIN_DESCRIPTION": "Konverter mata uang (Euro, Dolar, BTC), kurs FX, dan kalkulator.",
         "PAGE_TITLE": "{currency} - Halaman konverter kurs mata uang saat ini",
@@ -88,6 +94,9 @@ const messages = {
         "SWITCH": "Tukar"
     },
     nl: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Online valuta omrekenaar.",
         "MAIN_DESCRIPTION": "Valuta omrekenaar (Euro, Dollar, BTC), FX wisselkoers en calculator.",
         "PAGE_TITLE": "{currency} - Huidige valutaconversie pagina",
@@ -131,6 +140,9 @@ const messages = {
         "SWITCH": "Wissel"
     },
     cs: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Online měnový převodník.",
         "MAIN_DESCRIPTION": "Měnový převodník (Euro, Dolar, BTC), kurz FX a kalkulačka.",
         "PAGE_TITLE": "{currency} - Aktuální stránka převodníku měn",
@@ -174,6 +186,9 @@ const messages = {
         "SWITCH": "Přepnout"
     },
     it: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Convertitore di valuta online.",
         "MAIN_DESCRIPTION": "Convertitore di valuta (Euro, Dollaro, BTC), tasso di cambio FX e calcolatrice.",
         "PAGE_TITLE": "{currency} - Pagina corrente del convertitore di valuta",
@@ -217,6 +232,9 @@ const messages = {
         "SWITCH": "Scambia"
     },
     pl: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Internetowy konwerter walut.",
         "MAIN_DESCRIPTION": "Konwerter walut (Euro, Dolar, BTC), kursy walut FX i kalkulator.",
         "PAGE_TITLE": "{currency} - Aktualna strona konwertera walut",
@@ -260,6 +278,9 @@ const messages = {
         "SWITCH": "Zamień"
     },
     pt: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Conversor de moedas online.",
         "MAIN_DESCRIPTION": "Conversor de moedas (Euro, Dólar, BTC), taxas de câmbio FX e calculadora.",
         "PAGE_TITLE": "{currency} - Página atual do conversor de moedas",
@@ -303,6 +324,9 @@ const messages = {
         "SWITCH": "Trocar"
     },
     sv: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Online valutakonverterare.",
         "MAIN_DESCRIPTION": "Valutakonverterare (Euro, Dollar, BTC), FX-växelkurser och räknare.",
         "PAGE_TITLE": "{currency} - Aktuell växlingssida för valuta",
@@ -346,6 +370,9 @@ const messages = {
         "SWITCH": "Växla"
     },
     es: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Convertidor de divisas en línea.",
         "MAIN_DESCRIPTION": "Convertidor de divisas (Euro, Dólar, BTC), tasas de cambio FX y calculadora.",
         "PAGE_TITLE": "{currency} - Página actual del convertidor de divisas",
@@ -389,6 +416,9 @@ const messages = {
         "SWITCH": "Intercambiar"
     },
     fr: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Convertisseur de devises en ligne.",
         "MAIN_DESCRIPTION": "Convertisseur de devises (Euro, Dollar, BTC), taux de change FX et calculatrice.",
         "PAGE_TITLE": "{currency} - Page actuelle du convertisseur de devises",
@@ -432,6 +462,9 @@ const messages = {
         "SWITCH": "Changer"
     },
     de: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Online-Währungsumrechner.",
         "MAIN_DESCRIPTION": "Währungsrechner (Euro, Dollar, BTC), FX-Wechselkurse und Rechner.",
         "PAGE_TITLE": "{currency} - Aktuelle Währungsumrechner-Seite",
@@ -475,6 +508,9 @@ const messages = {
         "SWITCH": "Tauschen"
     },
     ro: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Convertor valutar online.",
         "MAIN_DESCRIPTION": "Calculator valutar (Euro, Dolar, BTC), cursuri valutare și calculator.",
         "PAGE_TITLE": "{currency} - Pagina de conversie valutară actuală",
@@ -518,6 +554,9 @@ const messages = {
         "SWITCH": "Schimbă"
     },
     bn: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "অনলাইন মুদ্রা রূপান্তরকারী।",
         "MAIN_DESCRIPTION": "মুদ্রা ক্যালকুলেটর (ইউরো, ডলার, বিটিসি), বিনিময় হার এবং ক্যালকুলেটর।",
         "PAGE_TITLE": "{currency} - বর্তমান মুদ্রা রূপান্তর পৃষ্ঠা",
@@ -561,6 +600,9 @@ const messages = {
         "SWITCH": "বদলান"
     },
     hi: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "ऑनलाइन मुद्रा परिवर्तक।",
         "MAIN_DESCRIPTION": "मुद्रा परिवर्तक (यूरो, डॉलर, BTC), FX विनिमय दर और कैलकुलेटर।",
         "PAGE_TITLE": "{currency} - वर्तमान मुद्रा विनिमय परिवर्तक पृष्ठ",
@@ -604,6 +646,9 @@ const messages = {
         "SWITCH": "स्विच करें"
     },
     tr: {
+        MAIN_HEAD: "Convert {src} to {dest}, exchange rate today",
+        CONVERT_HEAD: "{src_amount} {src} to {dest_amount} {dest}. Currency Exchange Rate of {src} to {dest}",
+        CALCULATOR_HEAD: "FX calculator for {src} ({currency_name}) Currency Exchange Rate calculator",
         "MAIN_TITLE": "Çevrimiçi döviz dönüştürücü.",
         "MAIN_DESCRIPTION": "Döviz dönüştürücü (Euro, Dolar, BTC), FX döviz kuru ve hesap makinesi.",
         "PAGE_TITLE": "{currency} - Güncel döviz dönüşüm sayfası",

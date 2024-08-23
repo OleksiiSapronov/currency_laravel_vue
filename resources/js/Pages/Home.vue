@@ -12,11 +12,13 @@ import {
   genCalculatorLink, 
   genConvertLink, 
   disValue,
-  disSingleValue
+  disSingleValue,
+  genCurrencyFullName
 } from "@/utils";
 import CalculatorTable from "@/Components/CalculatorTable.vue";
 import moment from "moment";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { useI18n } from 'vue-i18n';
 
 const props = withDefaults(defineProps<{
   countries: [Country];
@@ -43,11 +45,48 @@ onMounted(() => {
   }
 })
 
+const { t } = useI18n();
+
+const title = computed(() => {
+  switch(props.mode) {
+    case 1:
+      return t('MAIN_HEAD', { 
+        src: genCurrencyFullName(props.srcCurrency),
+        dest: genCurrencyFullName(props.destCurrency)
+      });
+      break;
+    case 2:
+      return t('CONVERT_HEAD', {
+        src: genCurrencyFullName(props.srcCurrency),
+        dest: genCurrencyFullName(props.destCurrency),
+        src_amount: disSingleValue(props.srcCurrency.latest_currency['balance']),
+        dest_amount: disValue(props.srcCurrency, props.destCurrency, 1)
+      })
+      break;
+    case 3:
+      return t('MAIN_HEAD', { 
+        src: genCurrencyFullName(props.srcCurrency), 
+        dest: genCurrencyFullName(props.destCurrency)
+      });
+      break;
+    case 4:
+      return t('CALCULATOR_HEAD', {
+        src: genCurrencyFullName(props.srcCurrency),
+        currency_name: props.srcCurrency.currency_name
+      })
+      break;
+    default: return "Home";
+  }
+})
 </script>
 
 <template>
 
-  <Head title="Home" />
+  <Head>
+    <title>{{ title }}</title>
+    <meta property="og:title" :content="title">
+    <meta name="description" :content="$t('ABOUT_SITE')">
+  </Head>
 
   <MainLayout>
     <div class="min-[640px]:py-6">
