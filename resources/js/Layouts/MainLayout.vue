@@ -18,6 +18,7 @@ const languages = ref([
         {lang: "it", label: "Italiano"},
         {lang: "pl", label: "Polski"},
         {lang: "pt", label: "Português"},
+        {lang: "es", label: "Español"},
         {lang: "sv", label: "Svenska"},
         {lang: "fr", label: "Français"},
         {lang: "de", label: "Deutsch"},
