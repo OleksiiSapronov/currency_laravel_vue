@@ -44,6 +44,19 @@ AZconvert.com is a currency conversion website designed for countries.
     php -r "unlink('composer-setup.php');"
 
     sudo mv composer.phar /usr/local/bin/composer
+
+    # Additional options
+    http://localhost:8000/admin/upload-csv/
+
+    click upload button
+
+    ## .env
+    
+    SESSION_DRIVER=file
+
+    php artisan cache:clear
+
+    http://localhost:8000/admin/countries
     ```
 
 2. Clone this [repository](https://github.com/OleksiiSapronov/courrency_laravel_vue) to the server.
