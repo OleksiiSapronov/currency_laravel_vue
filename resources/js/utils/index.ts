@@ -1,5 +1,5 @@
 
-import { Country } from "@/types";
+import { Country, Currency } from "@/types";
 
 export const SERVER_URL = "https://phpstack-1255990-4653753.cloudwaysapps.com";
 
@@ -59,6 +59,28 @@ export const genCurrencyFullName = (country: Country): string => {
 
 export const disSingleValue = (value: number): string => {
   return `${new Intl.NumberFormat().format(value)}`;
+}
+
+export const disHValue = (src: Country, dest: Country, destV: Currency, amount: number = 1, precision = 2) => {
+  let rate = Math.pow(10, Math.floor(Math.log10(src.latest_currency['balance'])));
+  if(Math.floor(Math.log10(rate / amount)) >= 4) precision = 8;
+  else if(Math.floor(Math.log10(rate / amount)) >= 3) precision = 6;
+  else if(Math.floor(Math.log10(rate / amount)) >= 2) precision = 4;
+  else if(Math.floor(Math.log10(rate / amount)) >= 1) precision = 2;
+  // Format as currency
+  const formatter = new Intl.NumberFormat('en', {
+    style: 'decimal',
+    currency: dest.currency_code,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: precision
+  });
+
+  // console.log(formatter.format(1234567.89));
+
+  let divider = rate * 1000;
+  if(dest.country_code == "WW") divider = 1e7;
+  let value = Math.round(amount * destV.balance * divider / src.latest_currency.balance) / divider;
+  return value;
 }
 
 export const disValue = (src: Country, dest: Country, amount: number = 1, show: boolean = false, precision = 2): string => {

@@ -12,6 +12,7 @@ import {
   genCalculatorLink, 
   genConvertLink, 
   disValue,
+  disHValue,
   disSingleValue,
   genCurrencyFullName
 } from "@/utils";
@@ -380,9 +381,9 @@ const title = computed(() => {
                         {{ disSingleValue(balance) }} {{ srcCurrency.currency_code }}
                       </Link> = 
                       <Link 
-                        :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * destCurrency.latest_currency['balance'] / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" 
+                        :href="genConvertLink(destCurrency, srcCurrency, Math.ceil(Math.round(balance * item.balance / srcCurrency.latest_currency['balance'] * 1e5) / 1e5))" 
                         class="text-blue-500 hover:text-gray-500">
-                        {{ disValue(srcCurrency, destCurrency, balance) }}
+                        {{ disHValue(srcCurrency, destCurrency, item, balance) }}
                         {{ destCurrency.currency_code }}
                       </Link>
                     </td>
