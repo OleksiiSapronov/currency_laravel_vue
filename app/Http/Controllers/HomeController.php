@@ -213,7 +213,7 @@ class HomeController extends Controller
                 'destCurrency' => $destCountry,
                 'mode' => 2,
                 'range' => $range,
-                'past' => $srcCountry->currencies()->where('date', '>', \Carbon\Carbon::now()->subDays(31))->orderBy('date')->get(),
+                'past' => $destCountry->currencies()->where('date', '>', \Carbon\Carbon::now()->subDays(31))->orderBy('date')->get(),
                 'balance' => $amount == 0 ? 100 : $amount
             ]);
         }
