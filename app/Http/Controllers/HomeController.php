@@ -144,7 +144,7 @@ class HomeController extends Controller
                 $tmp[] = $country;
             }
 
-            return Inertia::render('Home', [
+            return Inertia::render('Compare', [
                 'countries' => $countries,
                 'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,
@@ -168,7 +168,7 @@ class HomeController extends Controller
                 $tmp[] = $country;
             }
 
-            return Inertia::render('Home', [
+            return Inertia::render('Calculator', [
                 'countries' => $countries,
                 'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,
@@ -206,7 +206,7 @@ class HomeController extends Controller
                 $tmp[] = $country;
             }
 
-            return Inertia::render('Home', [
+            return Inertia::render('Pair', [
                 'countries' => $countries,
                 'topCountries' => $tmp,
                 'srcCurrency' => $srcCountry,

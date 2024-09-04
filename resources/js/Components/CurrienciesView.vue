@@ -33,7 +33,7 @@ const otherCurrencies = computed(() => {
       <h1 class="mt-12 font-semibold">{{ $t('MAIN_COUNTRIES') }}</h1>
       <div v-for="country in mainCurrencies" :key="country.id" class="flex gap-2 items-center">
         <Link :href="genCurrencyLink(country)">
-        <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+        <img height="24" width="32" :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
         </Link>
         <div class="currency-flag">
           <Link :href="genCurrencyLink(country)">
@@ -48,7 +48,7 @@ const otherCurrencies = computed(() => {
       <h1 class="mt-12 font-semibold">{{ $t('OTHER_COUNTRIES') }}</h1>
       <div v-for="country in otherCurrencies" :key="country.id" class="flex gap-2">
         <Link :href="genCurrencyLink(country)">
-        <img :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
+        <img height="24" width="32" :src="genFlagUrl(country.country_code)" :alt="country.country_name" />
         </Link>
         <div class="currency-flag">
           <Link :href="genCurrencyLink(country)">

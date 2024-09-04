@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import { compression } from 'vite-plugin-compression2'
+
 
 export default defineConfig({
     plugins: [
@@ -17,5 +19,10 @@ export default defineConfig({
                 },
             },
         }),
+        //added compression plugin
+        compression()
     ],
+    server: {
+        host: 'vue.nanofuxion.com',
+    },
 });

@@ -81,10 +81,6 @@ const title = computed(() => {
           <div>
             <!-- Title -->
             <div class="mb-3">
-              <div>
-                <div class="text-md pt-6 pb-3" >{{ $t('MAIN_TITLE') }} </div>
-                <div class="text-sm">{{ $t('MAIN_DESCRIPTION') || "" }}</div>
-              </div>
               <div class="text-md pt-6 pb-3">
                 {{ $t('PAGE_TITLE', { currency: `${srcCurrency.call} ${srcCurrency.currency_name} ${srcCurrency.currency_code}`}) }}
               </div>
@@ -186,10 +182,6 @@ const title = computed(() => {
                   link1: genCalculatorLink(srcCurrency),
                   link2: genCalculatorLink(destCurrency)
                 })"></div>
-                <br />
-                <div >
-                  {{ $t('ABOUT_SITE') }}
-                </div>
               </div>
             </div>
             

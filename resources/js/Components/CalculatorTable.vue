@@ -41,7 +41,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-              <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+              <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
               {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -78,7 +78,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -115,7 +115,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -152,7 +152,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -189,7 +189,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -226,7 +226,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>
@@ -263,7 +263,7 @@
           class="bg-white border-b">
           <th class="p-1 border text-md">
             <Link :href="genCurrencyLink(country)" class="text-blue-500 hover:text-gray-500">
-            <img :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
+            <img height="24" width="32" :src="genFlagUrl(country.country_code)" class="inline-block" :alt="country.country_name" />
             {{ `${country.call} ${country.currency_name} (${country.currency_code})` }}
             </Link>
           </th>

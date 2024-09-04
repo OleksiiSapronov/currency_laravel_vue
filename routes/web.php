@@ -8,18 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/', function() {
-    return Inertia::render('Loader');
-})->name('loader');
-
-// Route::get('/home', function() {
-//     return Inertia::render('Loader');
-// })->name('home');
-
-Route::get('/convert', [HomeController::class, 'index'])->name('home');
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('/admin')->group(function() {
     Route::resource('/countries', CountryController::class);

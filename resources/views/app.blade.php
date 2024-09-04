@@ -9,8 +9,10 @@
         <title inertia>{{ config('app.name', 'AZconvert.com') }}</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+         <!-- Removed unused font -->
+         <!-- Preload the english font file for pacifico from app.css import -->
+        <link rel="preload" href="https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ-6K6MmBp0u-zK4.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
 
         <!-- Scripts -->
         @routes
